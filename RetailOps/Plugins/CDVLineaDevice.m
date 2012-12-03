@@ -1,8 +1,9 @@
 //
 //  CDVLineaDevice.m
+//  RetailOps
 //
 //  Created by Nathan Bruer.
-//  Copyright (c) 2012 Allada Inc. All rights reserved.
+//  Copyright (c) 2012 Starin Marketing Inc. All rights reserved.
 //
 
 #import "CDVLineaDevice.h"
@@ -11,7 +12,7 @@
 @synthesize callbackId;
 
 - (CDVPlugin*) initWithWebView:(UIWebView*)theWebView {
-    LOG(@"initing Linea Device Plugin");
+    NSLog(@"initing Linea Device Plugin");
     self = [super initWithWebView:theWebView];
     [[NSNotificationCenter defaultCenter]
         addObserver:self
@@ -33,14 +34,14 @@
 }
 
 - (void) connectLinea:(NSNotification *)notification {
-    LOG(@"Connecting to linea device");
+    NSLog(@"Connecting to linea device");
     if(linea == nil)
-        linea = [DTDevices sharedDevice];
+        linea = [Linea sharedDevice];
 	[linea addDelegate:self];
 	[linea connect];
 }
 - (void) disconnectLinea:(NSNotification *)notification {
-    LOG(@"Disconnecting from linea device");
+    NSLog(@"Disconnecting from linea device");
     [linea disconnect];
     [linea removeDelegate:self];
 }
@@ -87,7 +88,7 @@
  */
 - (void) configureAllSettings:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    LOG(@"Configuring");
+    NSLog(@"Configuring");
     int i=0;
     if(options){
         if([options objectForKey:@"SCAN_BEEP"] && [options objectForKey:@"SCAN_BEEP_ENABLED"]){
@@ -97,26 +98,56 @@
             for(;i<count;i++){
                 newAry[i] = [[sounds objectAtIndex:i] intValue];
             }
-            [linea barcodeSetScanBeep:(bool) [[options objectForKey:@"SCAN_BEEP_ENABLED"] boolValue] volume:100 beepData:newAry length:sizeof(int) * count error:nil];
+            [linea setScanBeep:(bool) [[options objectForKey:@"SCAN_BEEP_ENABLED"] boolValue] volume:100 beepData:newAry length:sizeof(int) * count];
             free(newAry);
         }
 
         if([options objectForKey:@"SCAN_MODE"]){
-            [linea barcodeSetScanMode:[[options objectForKey:@"SCAN_MODE"] intValue] error:nil];
+            [linea setScanMode:[[options objectForKey:@"SCAN_MODE"] intValue]];
         }
         if([options objectForKey:@"BUTTON_ENABLED"]){
-            [linea barcodeSetScanButtonMode:[[options objectForKey:@"BUTTON_ENABLED"] intValue] error:nil];
+            [linea setScanButtonMode:[[options objectForKey:@"BUTTON_ENABLED"] intValue]];
         }
         if([options objectForKey:@"MS_MODE"]){
-            [linea msSetCardDataMode:[[options objectForKey:@"MS_MODE"] intValue] error:nil];
+            [linea setMSCardDataMode:[[options objectForKey:@"MS_MODE"] intValue]];
         }
         if([options objectForKey:@"BARCODE_TYPE"]){
-            [linea barcodeSetTypeMode:[[options objectForKey:@"BARCODE_TYPE"] intValue] error:nil];
+            [linea setBarcodeTypeMode:[[options objectForKey:@"BARCODE_TYPE"] intValue]];
+        }
+        if([options objectForKey:@"BARCODE_ENGINE_POWER"]){
+            [linea barcodeEnginePowerControl:[[options objectForKey:@"BARCODE_ENGINE_POWER"] boolValue]];
         }
         if([options objectForKey:@"CHARGING"]){
-            [linea setCharging:[[options objectForKey:@"CHARGING"] boolValue] error:nil];
+            [linea setCharging:[[options objectForKey:@"CHARGING"] boolValue]];
+        }
+
+        if([options objectForKey:@"barcodeStatus"]){
+            NSDictionary *barcodesEnabled = [options objectForKey:@"barcodeStatus"];
+            int lastI;
+            if([linea getBarcodeTypeMode] == BARCODE_TYPE_EXTENDED){
+                lastI = BAR_EX_LAST;
+            }else{
+                lastI = BAR_LAST;
+            }
+
+            for(i = 0;i<lastI;i++){
+                if([linea isBarcodeSupported:i] && [barcodesEnabled objectForKey:[NSString stringWithFormat:@"%i", i]] != nil){
+                    [linea enableBarcode:i enabled:[[barcodesEnabled objectForKey:[NSString stringWithFormat:@"%i", i]] boolValue]];
+                }
+            }
         }
     }
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Enables a specific barcode.
+ * @arguments[1] int        Barcode Type
+ * @arguments[2] boolean    Enabled or not
+ */
+- (void) enableBarcode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(2, true)
+    NSLog(@"%i %i", [[arguments objectAtIndex: 1] intValue], [[arguments objectAtIndex: 2] intValue]);
+    [linea enableBarcode:[[arguments objectAtIndex: 1] intValue] enabled:[[arguments objectAtIndex: 2] boolValue]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -133,7 +164,7 @@
     for(;i<(count > 10 ? 10 : count);i++){
         newAry[i] = [[sounds objectAtIndex:i] intValue];
     }
-    [linea playSound:(int) [[arguments objectAtIndex:1] intValue] beepData:newAry length:sizeof(int) * (count > 10 ? 10 : count) error:nil];
+    [linea playSound:(int) [[arguments objectAtIndex:1] intValue] beepData:newAry length:sizeof(int) * (count > 10 ? 10 : count)];
     free(newAry);
     if(count > 10){
         [NSException raise:@"InvalidArgument" format:@"You may only send 5 sounds though this function at a time, you tried to send %i. The remaining sounds where truncated.", count];
@@ -145,8 +176,8 @@
  */
 - (void) startScan:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    LOG(@"Started Scan");
-    [linea barcodeStartScan:nil];
+    NSLog(@"Started Scan");
+    [linea startScan];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -154,8 +185,18 @@
  */
 - (void) stopScan:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    LOG(@"Stopped Scan");
-    [linea barcodeStopScan:nil];
+    NSLog(@"Stopped Scan");
+    [linea stopScan];
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Sets the timeout of the lazer if no barcode has been scanned.
+ * @arguments[1] int        Seconds to wait.
+ */
+- (void) setScanTimeout:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    NSLog(@"Set Scanout Timeout");
+    [linea setScanTimeout:(int) [[arguments objectAtIndex:1] intValue]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -164,8 +205,8 @@
  */
 - (void) setScanMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(1, true)
-    LOG(@"Set Scan Mode");
-    [linea barcodeSetScanMode:(int) [[arguments objectAtIndex:1] intValue] error:nil];
+    NSLog(@"Set Scan Mode");
+    [linea setScanMode:(int) [[arguments objectAtIndex:1] intValue]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -176,7 +217,7 @@
  */
 - (void) setScanBeep:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(3, true)
-    LOG(@"Set Scan Beep");
+    NSLog(@"Set Scan Beep");
     NSArray *sounds = [arguments objectAtIndex:3];
     int count = [sounds count];
     int *newAry = malloc(sizeof(int) * count);
@@ -184,7 +225,7 @@
     for(;i<count;i++){
         newAry[i] = [[sounds objectAtIndex:i] intValue];
     }
-    [linea barcodeSetScanBeep:(bool) [[arguments objectAtIndex:1] boolValue] volume:(int) [[arguments objectAtIndex:2] intValue] beepData:newAry length:sizeof(int) * count error:nil];
+    [linea setScanBeep:(bool) [[arguments objectAtIndex:1] boolValue] volume:(int) [[arguments objectAtIndex:2] intValue] beepData:newAry length:sizeof(int) * count];
     free(newAry);
     END_ARGCHECKWRAPPER
 }
@@ -194,8 +235,8 @@
  */
 - (void) setScanButtonMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(1, true)
-    LOG(@"Set Scan Button Mode");
-    [linea barcodeSetScanButtonMode:(int) [[arguments objectAtIndex:1] intValue] error:nil];
+    NSLog(@"Set Scan Button Mode");
+    [linea setScanButtonMode:(int) [[arguments objectAtIndex:1] intValue]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -203,9 +244,9 @@
  * @arguments[1] int    Int value for MS_PROCESSED_CARD_DATA or MS_RAW_CARD_DATA
  */
 - (void) setMSCardDataMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-    LOG(@"Set MS Card Data Mode");
+    NSLog(@"Set MS Card Data Mode");
     BEGIN_ARGCHECKWRAPPER(1, true)
-    [linea msSetCardDataMode:(int) [[arguments objectAtIndex:1] intValue] error:nil];
+    [linea setMSCardDataMode:(int) [[arguments objectAtIndex:1] intValue]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -214,8 +255,8 @@
  */
 - (void) setBarcodeTypeMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(1, true)
-    LOG(@"Set Barcode Type Mode");
-    [linea barcodeSetTypeMode:(int) [[arguments objectAtIndex:1] intValue] error:nil];
+    NSLog(@"Set Barcode Type Mode");
+    [linea setBarcodeTypeMode:(int) [[arguments objectAtIndex:1] intValue]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -223,9 +264,7 @@
  */
 - (void) getScanButtonMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    int mode;
-    [linea barcodeGetScanButtonMode:&mode error:nil];
-    [returnArgs addObject:[NSNumber numberWithInt:mode]];
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getScanButtonMode]]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -233,9 +272,7 @@
  */
 - (void) getScanMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    int mode;
-    [linea barcodeGetScanMode:&mode error:nil];
-    [returnArgs addObject:[NSNumber numberWithInt:mode]];
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getScanMode]]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -243,10 +280,7 @@
  */
 - (void) getBatteryCapacity:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    int cap;
-    float vol;
-    [linea getBatteryCapacity:&cap voltage:&vol error:nil];
-    [returnArgs addObject:[NSNumber numberWithInt:cap]];
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getBatteryCapacity]]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -254,10 +288,31 @@
  */
 - (void) getBatteryVoltage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    int cap;
-    float vol;
-    [linea getBatteryCapacity:&cap voltage:&vol error:nil];
-    [returnArgs addObject:[NSNumber numberWithFloat:vol]];
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getBatteryVoltage]]];
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Check if Barcode is Enabled
+ */
+- (void) isBarcodeEnabled:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    [returnArgs addObject:[NSNumber numberWithBool:[linea isBarcodeEnabled:[[arguments objectAtIndex:1] intValue]]]];
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Check if Barcode is Supported
+ */
+- (void) isBarcodeSupported:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    [returnArgs addObject:[NSNumber numberWithBool:[linea isBarcodeSupported:[[arguments objectAtIndex:1] intValue]]]];
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Get MS Card Mode
+ */
+- (void) getMSCardDataMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(0, true)
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getMSCardDataMode]]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -265,9 +320,7 @@
  */
 - (void) getCharging:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    BOOL charging;
-    [linea getCharging:&charging error:nil];
-    [returnArgs addObject:[NSNumber numberWithBool:charging]];
+    [returnArgs addObject:[NSNumber numberWithBool:[linea getCharging]]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -275,8 +328,16 @@
  */
 - (void) setCharging:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(1, true)
-    LOG(@"Set Charge Mode");
-    [linea setCharging:[[arguments objectAtIndex:1] boolValue] error:nil];
+    NSLog(@"Set Charge Mode");
+    [linea setCharging:[[arguments objectAtIndex:1] boolValue]];
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Get Sync Button Mode
+ */
+- (void) getSyncButtonMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(0, true)
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getSyncButtonMode]]];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -284,10 +345,22 @@
  */
 - (void) msProcessFinancialCard:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(2, true)
+    financialCard *data;
     NSString *track1 = [arguments objectAtIndex:1];
     NSString *track2 = [arguments objectAtIndex:2];
-    NSDictionary *data = [linea msProcessFinancialCard:track1 track2:track2];
-    [returnArgs addObject:data];
+    [linea msProcessFinancialCard:data track1:track1 track2:track2];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          IF_NULLOBJ(data->accountNumber), @"accountNumber",
+                          IF_NULLOBJ(data->cardholderName), @"cardholderName",
+                          IF_NULLOBJ(data->discretionaryData), @"discretionaryData",
+                          data->exirationMonth ? [NSNumber numberWithInt:data->exirationMonth] : [NSNull null], @"exirationMonth",
+                          data->exirationYear ? [NSNumber numberWithInt:data->exirationYear] : [NSNull null], @"exirationYear",
+                          IF_NULLOBJ(data->firstName), @"firstName",
+                          IF_NULLOBJ(data->lastName), @"lastName",
+                          IF_NULLOBJ(data->serviceCode), @"serviceCode",
+                          nil
+                          ];
+    [returnArgs addObject:dict];
     END_ARGCHECKWRAPPER
 }
 /**
@@ -295,9 +368,17 @@
  */
 - (void) getBarcodeTypeMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     BEGIN_ARGCHECKWRAPPER(0, true)
-    int mode;
-    [linea barcodeGetTypeMode:&mode error:nil];
-    [returnArgs addObject:[NSNumber numberWithInt:mode]];
+    [returnArgs addObject:[NSNumber numberWithInt:[linea getBarcodeTypeMode]]];
+    END_ARGCHECKWRAPPER
+}
+/**
+ * Barcode engine Power Control
+ */
+- (void) barcodeEnginePowerControl:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    NSLog(@"Set Barcode Engine Control");
+    bool engineOn = [[arguments objectAtIndex:1] boolValue];
+    [linea barcodeEnginePowerControl:engineOn];
     END_ARGCHECKWRAPPER
 }
 - (void) getConnectionState:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
@@ -321,18 +402,10 @@
  */
 - (void) monitor:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     self.callbackId = [arguments objectAtIndex:0];
-    BEGIN_ARGCHECKWRAPPER(0, false)
-    	[returnArgs addObject:@"connectionState"];
-    	[returnArgs addObject:[NSNumber numberWithInt:lineaConnectionState]];
-    	pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:returnArgs];
-    	[pluginResult setKeepCallbackAsBool: true];
-    	javaScript = [pluginResult toSuccessCallbackString:localCallbackId];
-	} @catch (id exception){
-    	pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_JSON_EXCEPTION messageAsString:[exception reason]];
-    	javaScript = [pluginResult toErrorCallbackString:localCallbackId];
-	}
-	[returnArgs release];
-	[self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:nil];
+    [pluginResult setKeepCallbackAsBool: true];
+    NSString *javaScript = [pluginResult toSuccessCallbackString:self.callbackId];
+    [self writeJavascript:javaScript];
 }
 /**
  * Unsets the function used to monitor events from the linea device.
@@ -355,9 +428,6 @@
     }
 #define NIL2EMPTYSTR(str) str == nil?@"":str
 #endif
-
-
-
 // Begin called functions from Linea Device
 /**
  * Event fired when barcode is scanned
@@ -394,104 +464,11 @@
     END_JSINJECTWRAPPER
 }
 /**
- * Notification sent when JIS I & II magnetic card is successfuly read.
- * @returns [(string) 'magneticJISCardData', (string) data]
- */
-- (void)magneticJISCardData:(NSString *) data{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"magneticJISCardData"];
-    [returnArgs addObject:data];
-    END_JSINJECTWRAPPER
-}
--(void)smartCardInserted:(SC_SLOTS)slot{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"smartCardInserted"];
-    [returnArgs addObject:[NSNumber numberWithInt:slot]];
-    END_JSINJECTWRAPPER
-}
--(void)smartCardRemoved:(SC_SLOTS)slot{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"smartCardRemoved"];
-    [returnArgs addObject:[NSNumber numberWithInt:slot]];
-    END_JSINJECTWRAPPER
-}
--(void)barcodeData:(NSString *)barcode isotype:(NSString *)isotype{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"barcodeDataIsoType"];
-    [returnArgs addObject:barcode];
-    [returnArgs addObject:isotype];
-    END_JSINJECTWRAPPER
-}
--(void)PINEntryCompleteWithError:(NSError *)error{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"PINEntryCompleteWithError"];
-    [returnArgs addObject:[error localizedDescription]];
-    END_JSINJECTWRAPPER
-}
-/**
- * Notification sent when paper's paper sensor changes.
- */
--(void)paperStatus:(BOOL)present{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"paperStatus"];
-    [returnArgs addObject:[NSNumber numberWithBool:present]];
-    END_JSINJECTWRAPPER
-}
--(void)rfCardDetected: (int) cardIndex info: (DTRFCardInfo *) info{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"rfCardDetected"];
-    [returnArgs addObject:[NSNumber numberWithBool:cardIndex]];
-    NSDictionary *dict = [NSDictionary dictionary];
-    [dict setValue:[NSNumber numberWithInt:[info type]] forKey:@"type"];
-    [dict setValue:[info typeStr] forKey:@"typeStr"];
-    [dict setValue:[info UID] forKey:@"UID"];
-    [dict setValue:[NSNumber numberWithInt:[info ATQA]] forKey:@"ATQA"];
-    [dict setValue:[NSNumber numberWithInt:[info SAK]] forKey:@"SAK"];
-    [dict setValue:[NSNumber numberWithInt:[info AFI]] forKey:@"AFI"];
-    [dict setValue:[NSNumber numberWithInt:[info DSFID]] forKey:@"DSFID"];
-    [dict setValue:[NSNumber numberWithInt:[info blockSize]] forKey:@"blockSize"];
-    [dict setValue:[NSNumber numberWithInt:[info nBlocks]] forKey:@"nBlocks"];
-    [returnArgs addObject:dict];
-    END_JSINJECTWRAPPER
-}
--(void)bluetoothDeviceConnected:(NSString *)btAddress{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"bluetoothDeviceConnected"];
-    [returnArgs addObject:btAddress];
-    END_JSINJECTWRAPPER
-}
--(void)bluetoothDeviceDisconnected:(NSString *)btAddress{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"bluetoothDeviceDisconnected"];
-    [returnArgs addObject:btAddress];
-    END_JSINJECTWRAPPER
-}
--(void)bluetoothDiscoverComplete:(BOOL)success{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"bluetoothDiscoverComplete"];
-    [returnArgs addObject:[NSNumber numberWithBool:success]];
-    END_JSINJECTWRAPPER
-}
--(void)bluetoothDeviceDiscovered:(NSString *)btAddress name:(NSString *)btName:(BOOL)success{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"bluetoothDeviceDiscovered"];
-    [returnArgs addObject:btAddress];
-    [returnArgs addObject:btName];
-    [returnArgs addObject:[NSNumber numberWithBool:success]];
-    END_JSINJECTWRAPPER
-}
--(void)rfCardRemoved: (int) cardIndex{
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"rfCardRemoved"];
-    [returnArgs addObject:[NSNumber numberWithBool:cardIndex]];
-    END_JSINJECTWRAPPER
-}
-/**
  * Event fired when button is pressed
  * @returns [(string) 'buttonPressed', (int) whichButton]
  */
-- (void)deviceButtonPressed:(int)which {
-    LOG(@"Button pressed");
+- (void)buttonPressed:(int)which {
+    NSLog(@"Button pressed");
     BEGIN_JSINJECTWARPPER
     NSNumber *objWhich = [NSNumber numberWithInt:which]; // Convert to object because int is not an object and NSArray requires objects.
     [returnArgs addObject:@"buttonPressed"];
@@ -502,8 +479,8 @@
  * Event fired when button is released
  * @returns [(string) 'buttonReleased', (int) whichButton]
  */
-- (void)deviceButtonReleased:(int)which {
-    LOG(@"Button Released");
+- (void)buttonReleased:(int)which {
+    NSLog(@"Button Released");
     BEGIN_JSINJECTWARPPER
     NSNumber *objWhich = [NSNumber numberWithInt:which]; // Convert to object because int is not an object and NSArray requires objects.
     [returnArgs addObject:@"buttonReleased"];
@@ -511,26 +488,14 @@
     END_JSINJECTWRAPPER
 }
 /**
- * Event fired when a feature gets enabled or disabled.
- * @returns [(string) 'featureSupported', (int) feature, (int) value]
- */
-- (void)deviceFeatureSupported: (int) feature value:(int) value{
-    LOG(@"Button Released");
-    BEGIN_JSINJECTWARPPER
-    [returnArgs addObject:@"featureSupported"];
-    [returnArgs addObject:[NSNumber numberWithInt:feature]];
-    [returnArgs addObject:[NSNumber numberWithInt:value]];
-    END_JSINJECTWRAPPER
-}
-/**
  * Event fired when device connection state changed.
  * @returns [(string) 'buttonReleased', (int) state]
  */
 -(void)connectionState:(int)state {
-    LOG(@"Status Changed: %i", state);
+    NSLog(@"Status Changed: %i", state);
     lineaConnectionState = state;
     if (state == CONN_CONNECTED) {
-        [linea msEnable:nil];
+        [linea msStartScan];
     }
     BEGIN_JSINJECTWARPPER
     NSNumber *objState = [NSNumber numberWithInt:state]; // Convert to object because int is not an object and NSArray requires objects.

@@ -1,18 +1,16 @@
 //
 //  CDVLineaDevice.h
+//  RetailOps
 //
 //  Created by Nathan Bruer.
-//  Copyright (c) 2012 Allada Inc. All rights reserved.
+//  Copyright (c) 2012 Starin Marketing Inc. All rights reserved.
 //
-#ifndef LOG
-	#define LOG(s, ...) NSLog(@"<%s : (%d)> %@", __FUNCTION__, __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__])
-#endif
 #import <Cordova/CDVPlugin.h>
 #import <Foundation/NSNull.h>
-#import "DTDevices.h"
+#import "LineaSDK.h"
 #import <ExternalAccessory/ExternalAccessory.h>
-@interface CDVLineaDevice : CDVPlugin <DTDeviceDelegate>{
-    DTDevices *linea;
+@interface CDVLineaDevice : CDVPlugin {
+    Linea *linea;
     int lineaConnectionState;
 }
 @property (retain) NSString* callbackId;
@@ -21,9 +19,11 @@
 - (void) disconnectLinea:(NSNotification *)notification;
 
 // Start JS Callable Functions
+- (void) enableBarcode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) playSound:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) startScan:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stopScan:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setScanTimeout:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setScanMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setScanBeep:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setScanButtonMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;

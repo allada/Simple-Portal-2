@@ -11,14 +11,7 @@
 - (void)set:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     AppDelegate* appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
-    NSMutableArray *returnArgs = [[NSMutableArray alloc] init];
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:returnArgs];
-    NSString *javaScript = [pluginResult toSuccessCallbackString:[arguments objectAtIndex:0]];
-    [self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]];
-    [returnArgs release];
-    returnArgs = nil;
     
-
     NSMutableArray *allowed = [NSMutableArray array];
     NSString *targetOrientation = [options objectForKey:@"key"];
     int statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;

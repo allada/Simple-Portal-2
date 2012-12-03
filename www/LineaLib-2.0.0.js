@@ -443,33 +443,21 @@ LineaBrowser = function (){
             deligates.creditCardData[i].apply(scopes.creditCardData[i], arguments);
     },
     eventDelegate: function (event){
-        if(event && event.length && LineaBrowser[event[0]]){
+        if(LineaBrowser[event[0]]){
             // This is needed because arguments is not a true array it's a fake array so we need to clone it.
             var args = [];
             for(var i=1;i<event.length;i++){
                 args.push(event[i]);
             }
+            
             LineaBrowser[event[0]].apply(LineaBrowser, args);
         }
     }
 };
 }();
 document.addEventListener('deviceready', function (){
-	cordova.exec(LineaBrowser.eventDelegate, LineaBrowser.errorFn, "LineaDevice", "monitor", []);
+    cordova.exec(LineaBrowser.eventDelegate, LineaBrowser.errorFn, "LineaDevice", "monitor", []);
 }, false);
 if(window.onLineaBrowserLoad)
     window.onLineaBrowserLoad();
 window.onLineaBrowserLoad = null;
-
-var screenOrientation = function (){};
-screenOrientation.prototype.set = function(str, success, fail){
-    var args = {};
-    args.key = str;
-    if(!success)
-        success = function (){};
-    if(!fail)
-        fail = function (){};
-    if(cordova.exec)
-        cordova.exec(success, fail, "ScreenOrientation", "set", [args]);
-};
-navigator.screenOrientation = new screenOrientation();

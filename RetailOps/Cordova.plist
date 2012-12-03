@@ -4,12 +4,10 @@
 <dict>
 	<key>UIWebViewBounce</key>
 	<true/>
-	<key>KeyboardDisplayRequiresUserAction</key>
-	<string>NO</string>
 	<key>TopActivityIndicator</key>
 	<string>gray</string>
 	<key>EnableLocation</key>
-	<true/>
+	<false/>
 	<key>EnableViewportScale</key>
 	<true/>
 	<key>AutoHideSplashScreen</key>
@@ -23,15 +21,13 @@
 	<key>OpenAllWhitelistURLsInWebView</key>
 	<true/>
 	<key>BackupWebStorage</key>
-	<string>local</string>
+	<true/>
 	<key>ExternalHosts</key>
 	<array>
 		<string>*</string>
 	</array>
 	<key>Plugins</key>
 	<dict>
-		<key>BlueBamboo</key>
-		<string>CDVBlueBamboo</string>
 		<key>ScreenOrientation</key>
 		<string>ScreenOrientation</string>
 		<key>Device</key>
