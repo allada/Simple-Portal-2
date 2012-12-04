@@ -30,8 +30,6 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
-		<key>BlueBamboo</key>
-		<string>CDVBlueBamboo</string>
 		<key>ScreenOrientation</key>
 		<string>ScreenOrientation</string>
 		<key>Device</key>

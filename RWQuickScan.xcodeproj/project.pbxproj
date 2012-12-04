@@ -35,8 +35,6 @@
 		4D16FA211604031200B87399 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D16FA201604031200B87399 /* MainViewController.xib */; };
 		4D1A6EE916684060003585EF /* libdtdev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1A6EE816684060003585EF /* libdtdev.a */; };
 		4D1EC746165405480098A713 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1EC73F1653FDD40098A713 /* libCordova.a */; };
-		4D1EC74D165407DC0098A713 /* CDVBlueBamboo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EC74C165407DC0098A713 /* CDVBlueBamboo.m */; };
-		4D1EC767165BEE780098A713 /* BlueBambooPrinterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EC766165BEE780098A713 /* BlueBambooPrinterObject.m */; };
 		4D5AE63D1604EC19003BC8CC /* CDVLineaDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AE63C1604EC19003BC8CC /* CDVLineaDevice.m */; };
 		4D7F0422161A3C72004FEEE1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D7F0421161A3C72004FEEE1 /* Default-568h@2x.png */; };
 		4DBB00BB1607F6F9006FF512 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4DBB00BA1607F6F9006FF512 /* Settings.bundle */; };
@@ -58,7 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D16F9CF1604031100B87399 /* Starin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D16F9CF1604031100B87399 /* RWQuickScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RWQuickScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D16F9D31604031100B87399 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4D16F9D51604031100B87399 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4D16F9D71604031100B87399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -72,10 +70,10 @@
 		4D16F9E71604031100B87399 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4D16F9E91604031100B87399 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4D16F9EB1604031100B87399 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		4D16F9EF1604031100B87399 /* Starin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Starin-Info.plist"; sourceTree = "<group>"; };
+		4D16F9EF1604031100B87399 /* RWQuickScan-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RWQuickScan-Info.plist"; sourceTree = "<group>"; };
 		4D16F9F11604031100B87399 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4D16F9F31604031100B87399 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4D16F9F51604031100B87399 /* Starin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Starin-Prefix.pch"; sourceTree = "<group>"; };
+		4D16F9F51604031100B87399 /* RWQuickScan-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RWQuickScan-Prefix.pch"; sourceTree = "<group>"; };
 		4D16F9FB1604031100B87399 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4D16F9FF1604031100B87399 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4D16FA031604031100B87399 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -96,11 +94,6 @@
 		4D1A6EE716684060003585EF /* DTDevices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTDevices.h; sourceTree = "<group>"; };
 		4D1A6EE816684060003585EF /* libdtdev.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdtdev.a; sourceTree = "<group>"; };
 		4D1EC7371653FDD30098A713 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
-		4D1EC74B165407DC0098A713 /* CDVBlueBamboo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVBlueBamboo.h; path = Plugins/CDVBlueBamboo.h; sourceTree = "<group>"; };
-		4D1EC74C165407DC0098A713 /* CDVBlueBamboo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVBlueBamboo.m; path = Plugins/CDVBlueBamboo.m; sourceTree = "<group>"; };
-		4D1EC765165BEE780098A713 /* BlueBambooPrinterObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlueBambooPrinterObject.h; path = Plugins/BlueBambooPrinterObject.h; sourceTree = "<group>"; };
-		4D1EC766165BEE780098A713 /* BlueBambooPrinterObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlueBambooPrinterObject.m; path = Plugins/BlueBambooPrinterObject.m; sourceTree = "<group>"; };
-		4D1EC769165C193D0098A713 /* BlueBambooPrinterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BlueBambooPrinterDelegate.h; path = Plugins/BlueBambooPrinterDelegate.h; sourceTree = "<group>"; };
 		4D5AE63B1604EC19003BC8CC /* CDVLineaDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLineaDevice.h; path = Plugins/CDVLineaDevice.h; sourceTree = "<group>"; };
 		4D5AE63C1604EC19003BC8CC /* CDVLineaDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLineaDevice.m; path = Plugins/CDVLineaDevice.m; sourceTree = "<group>"; };
 		4D7F0421161A3C72004FEEE1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -162,7 +155,7 @@
 		4D16F9D01604031100B87399 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D16F9CF1604031100B87399 /* Starin.app */,
+				4D16F9CF1604031100B87399 /* RWQuickScan.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,10 +199,10 @@
 			isa = PBXGroup;
 			children = (
 				4DD80F1B160530FA005AE0AD /* VERSION */,
-				4D16F9EF1604031100B87399 /* Starin-Info.plist */,
+				4D16F9EF1604031100B87399 /* RWQuickScan-Info.plist */,
 				4D16F9F01604031100B87399 /* InfoPlist.strings */,
 				4D16F9F31604031100B87399 /* main.m */,
-				4D16F9F51604031100B87399 /* Starin-Prefix.pch */,
+				4D16F9F51604031100B87399 /* RWQuickScan-Prefix.pch */,
 				4D16FA171604031100B87399 /* Cordova.plist */,
 				4D16FA201604031200B87399 /* MainViewController.xib */,
 				4D16FA241604031200B87399 /* verify.sh */,
@@ -303,9 +296,6 @@
 				4DDBE976161252A20033D578 /* ScreenOrientation.m */,
 				4D5AE63B1604EC19003BC8CC /* CDVLineaDevice.h */,
 				4D5AE63C1604EC19003BC8CC /* CDVLineaDevice.m */,
-				4D1EC74B165407DC0098A713 /* CDVBlueBamboo.h */,
-				4D1EC74C165407DC0098A713 /* CDVBlueBamboo.m */,
-				4D1EC76A165C197A0098A713 /* BlueBambooHelperClasses */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -316,16 +306,6 @@
 				4D1EC73F1653FDD40098A713 /* libCordova.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		4D1EC76A165C197A0098A713 /* BlueBambooHelperClasses */ = {
-			isa = PBXGroup;
-			children = (
-				4D1EC765165BEE780098A713 /* BlueBambooPrinterObject.h */,
-				4D1EC766165BEE780098A713 /* BlueBambooPrinterObject.m */,
-				4D1EC769165C193D0098A713 /* BlueBambooPrinterDelegate.h */,
-			);
-			name = BlueBambooHelperClasses;
 			sourceTree = "<group>";
 		};
 		4DD80F2516063A91005AE0AD /* LineaSDK */ = {
@@ -340,9 +320,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D16F9CE1604031100B87399 /* Starin */ = {
+		4D16F9CE1604031100B87399 /* RWQuickScan */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "Starin" */;
+			buildConfigurationList = 4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "RWQuickScan" */;
 			buildPhases = (
 				4D16F9C81604031100B87399 /* Sources */,
 				4D16F9C91604031100B87399 /* Frameworks */,
@@ -355,9 +335,9 @@
 			);
 			dependencies = (
 			);
-			name = Starin;
+			name = RWQuickScan;
 			productName = RetailOps;
-			productReference = 4D16F9CF1604031100B87399 /* Starin.app */;
+			productReference = 4D16F9CF1604031100B87399 /* RWQuickScan.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -369,7 +349,7 @@
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Starin Marketing Inc.";
 			};
-			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "Starin" */;
+			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "RWQuickScan" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -390,7 +370,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				4D16F9CE1604031100B87399 /* Starin */,
+				4D16F9CE1604031100B87399 /* RWQuickScan */,
 			);
 		};
 /* End PBXProject section */
@@ -455,8 +435,6 @@
 				4D16FA1F1604031200B87399 /* MainViewController.m in Sources */,
 				4D5AE63D1604EC19003BC8CC /* CDVLineaDevice.m in Sources */,
 				4DDBE977161252A20033D578 /* ScreenOrientation.m in Sources */,
-				4D1EC74D165407DC0098A713 /* CDVBlueBamboo.m in Sources */,
-				4D1EC767165BEE780098A713 /* BlueBambooPrinterObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,7 +571,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RetailOps/Starin-Prefix.pch";
+				GCC_PREFIX_HEADER = "RetailOps/RWQuickScan-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
@@ -604,7 +582,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				INFOPLIST_FILE = "RetailOps/Starin-Info.plist";
+				INFOPLIST_FILE = "RetailOps/RWQuickScan-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -624,7 +602,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = Starin;
+				PRODUCT_NAME = RWQuickScan;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -647,7 +625,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RetailOps/Starin-Prefix.pch";
+				GCC_PREFIX_HEADER = "RetailOps/RWQuickScan-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
@@ -657,7 +635,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				INFOPLIST_FILE = "RetailOps/Starin-Info.plist";
+				INFOPLIST_FILE = "RetailOps/RWQuickScan-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -677,7 +655,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = Starin;
+				PRODUCT_NAME = RWQuickScan;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -691,7 +669,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D16F9C61604031100B87399 /* Build configuration list for PBXProject "Starin" */ = {
+		4D16F9C61604031100B87399 /* Build configuration list for PBXProject "RWQuickScan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D16FA251604031200B87399 /* Debug */,
@@ -700,7 +678,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "Starin" */ = {
+		4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "RWQuickScan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D16FA281604031200B87399 /* Debug */,

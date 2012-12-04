@@ -14,9 +14,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D16F9CE1604031100B87399"
-               BuildableName = "Starin.app"
-               BlueprintName = "Starin"
-               ReferencedContainer = "container:Starin.xcodeproj">
+               BuildableName = "RWQuickScan.app"
+               BlueprintName = "RWQuickScan"
+               ReferencedContainer = "container:RWQuickScan.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
-            BuildableName = "Starin.app"
-            BlueprintName = "Starin"
-            ReferencedContainer = "container:Starin.xcodeproj">
+            BuildableName = "RWQuickScan.app"
+            BlueprintName = "RWQuickScan"
+            ReferencedContainer = "container:RWQuickScan.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
-            BuildableName = "Starin.app"
-            BlueprintName = "Starin"
-            ReferencedContainer = "container:Starin.xcodeproj">
+            BuildableName = "RWQuickScan.app"
+            BlueprintName = "RWQuickScan"
+            ReferencedContainer = "container:RWQuickScan.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
-            BuildableName = "Starin.app"
-            BlueprintName = "Starin"
-            ReferencedContainer = "container:Starin.xcodeproj">
+            BuildableName = "RWQuickScan.app"
+            BlueprintName = "RWQuickScan"
+            ReferencedContainer = "container:RWQuickScan.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
