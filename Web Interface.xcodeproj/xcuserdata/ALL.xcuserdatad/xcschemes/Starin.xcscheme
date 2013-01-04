@@ -15,8 +15,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D16F9CE1604031100B87399"
                BuildableName = "Starin.app"
-               BlueprintName = "Starin"
-               ReferencedContainer = "container:Starin.xcodeproj">
+               BlueprintName = "Web Interface"
+               ReferencedContainer = "container:Web Interface.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -47,8 +47,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
             BuildableName = "Starin.app"
-            BlueprintName = "Starin"
-            ReferencedContainer = "container:Starin.xcodeproj">
+            BlueprintName = "Web Interface"
+            ReferencedContainer = "container:Web Interface.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -66,8 +66,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
             BuildableName = "Starin.app"
-            BlueprintName = "Starin"
-            ReferencedContainer = "container:Starin.xcodeproj">
+            BlueprintName = "Web Interface"
+            ReferencedContainer = "container:Web Interface.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -84,8 +84,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
             BuildableName = "Starin.app"
-            BlueprintName = "Starin"
-            ReferencedContainer = "container:Starin.xcodeproj">
+            BlueprintName = "Web Interface"
+            ReferencedContainer = "container:Web Interface.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

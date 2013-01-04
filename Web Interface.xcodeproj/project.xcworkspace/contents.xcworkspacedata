@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Starin.xcodeproj">
+      location = "self:Web Interface.xcodeproj">
    </FileRef>
 </Workspace>
