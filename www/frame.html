@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <script type="text/javascript" src="cordova-2.2.0.js"></script>
+        <style type="text/css">
+            body, html{
+                width:100%;
+                height:100%;
+                padding:0px;
+                margin:0px;
+            }
+        </style>
+    </head>
+    <body>
+        <iframe id="mainFrame" src="about:blank" style="height:100%;width:100%;border:0px;margin:0px;padding:0px;" onload="frameloaded()"></iframe>
+        <script type="text/javascript">
+            var frame = document.getElementById('mainFrame').contentWindow;
+            function frameloaded(){
+                frame.cordova = cordova;
+                frame.Camera = Camera;
+                frame.navigator = navigator;
+                frame.execJS = execJS;
+            }
+            function execJS(code){
+                var args = arguments;
+                if(frame){ // This is to ensure it keeps frame in this context
+                	return eval(code);
+                }
+            }
+            </script>
+    </body>
+</html>

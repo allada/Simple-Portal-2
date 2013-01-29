@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+        
+        <title>Example Page</title>
+        
+        
+        <script language="JavaScript" type="text/javascript" src="cordova-2.2.0.js"></script>
+        <script language="JavaScript" type="text/javascript" src="LineaLib-2.0.0.js"></script>
+        <script language="JavaScript" type="text/javascript">
+            LineaBrowser.on('barcodeData', function (data, type){
+                           log('Barcode Read: "'+data+'", "'+type+'"');
+                           });
+            LineaBrowser.on('magneticCardData', function (track1, track2, track3){
+                           log('Card Read "'+track1+'", "'+track2+'", "'+track3+'"');
+                           });
+            LineaBrowser.on('magneticCardRawData', function (data){
+                           log('Card Read "'+data+'"');
+                           });
+            LineaBrowser.on('buttonPress', function (){
+                           log('Button Pressed');
+                           });
+            LineaBrowser.on('buttonRelease', function (){
+                           log('Button Released');
+                           });
+            LineaBrowser.on('connectionState', function (state){
+                           log('Connection State changed to: '+state);
+                           });
+            function log(msg){
+                if(!document.getElementById('logData').innerHTML)
+                document.getElementById('logData').innerHTML = msg;
+                else
+                document.getElementById('logData').innerHTML += "<br />"+msg;
+            }
+            function playMerryHadALittleLamb(){
+                var sounds = [3,2,1,2,3,3,3,2,2,2,3,3,3,3,2,1,2,3,3,3,3,2,3,2,1];
+                var position = 0;
+                var interval = setInterval(function (){
+                    if(position >= sounds.length){
+                        clearInterval(interval);
+                        return;
+                    }
+                    LineaBrowser.playSound(100,[sounds[position] * 500, 250]);
+                    position++;
+                }, 250);
+            }
+            function getPic(){
+                LineaBrowser.getPicture(function (imageURI){
+                	var logData = document.getElementById('logData');
+                    if(!logData.innerHTML)
+                    	logData.innerHTML = msg;
+                    else
+                        logData.innerHTML += "<br />";
+                    var img = document.createElement('img');
+                    img.src = imageURI;
+                    logData.appendChild(img);
+                    return;
+                    // ************
+                    // The following code is how you can extract the PNG binary data
+                    // ************
+                    var img = new Image();
+                    img.onload = function (){
+                        var canvas = document.createElement('canvas');
+                        canvas.height = img.clientHeight;
+                        canvas.width = img.clientWidth;
+                        var ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        // This line will will send the binary data to someFunction(/* Binary Data */);
+                    	someFunction(canvas.toDataURL("image/png"));
+                    };
+                    img.src = imageURI;
+                },
+                function (){
+                    alert('error occured!');
+            	});
+            }
+            </script>
+        <style type="text/css">
+            input{
+                height: 25px;
+                margin-bottom:3px;
+            }
+            </style>
+    </head>
+    <body>
+        <h1 style="text-align:center;font-size:50px;">Version 04</h1>
+        <hr />
+        <p>Linea Device functions</p>
+        <input type="button" value="Play Error Sound" onclick="LineaBrowser.playSound(100,[100,100,0,100,100,100,0,100,100,100]);" style="width:300px" /><br />
+        <input type="button" value="Play Merry Had a Little Lamb" onclick="playMerryHadALittleLamb();" style="width:300px" /><br />
+
+        <input type="button" value="Start Scan" onclick="LineaBrowser.startScan();" style="width:150px" />
+        <input type="button" value="Stop Scan" onclick="LineaBrowser.stopScan();" style="width:150px" /><br />
+        
+        <input type="button" value="Set Scan Timeout to 10 seconds" onclick="LineaBrowser.setScanTimeout(10);" style="width:300px" /><br />
+        
+        <input type="button" value="Disable Button" onclick="LineaBrowser.setScanButtonMode(LineaBrowser.BUTTON_DISABLED);" style="width:150px" />
+        <input type="button" value="Enable Button" onclick="LineaBrowser.setScanButtonMode(LineaBrowser.BUTTON_ENABLED);" / style="width:150px"><br />
+            
+            <input type="button" value="Enable Persistant Scanning" onclick="LineaBrowser.setScanMode(LineaBrowser.MODE_MULTI_SCAN);" style="width:150px" />
+            <input type="button" value="Disable Persistant Scanning" onclick="LineaBrowser.setScanMode(LineaBrowser.MODE_SINGLE_SCAN);" style="width:150px" /><br />
+            
+            <input type="button" value="Set Random Beep On Scan" onclick="LineaBrowser.setScanBeep(true, 100, [Math.floor(Math.random() * 5000), Math.floor(Math.random() * 1000), Math.floor(Math.random() * 5000), Math.floor(Math.random() * 1000)]);" style="width:150px" />
+            <input type="button" value="Disable Beep On Scan" onclick="LineaBrowser.setScanBeep(false, 100, []);" style="width:150px" /><br />
+            
+            <input type="button" value="Use Extended Barcodes" onclick="LineaBrowser.setBarcodeTypeMode(LineaBrowser.BARCODE_TYPE_EXTENDED);" style="width:150px" />
+            <input type="button" value="Use Default Barcodes" onclick="LineaBrowser.setBarcodeTypeMode(LineaBrowser.BARCODE_TYPE_DEFAULT);" style="width:150px" /><br />
+            
+            <input type="button" value="Take Pic" onclick="getPic()" style="width:150px" /><br />
+            
+            <p style="text-align:center;font-weight:bold">Captured Events:</p>
+            <hr />
+            <div id="logData" style="width:100%;height:300px;overflow:auto;background-color:#EEEEEE"></div>
+            </body>
+</html>

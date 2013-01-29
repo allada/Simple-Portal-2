@@ -55,7 +55,7 @@
         self.viewController.startPage = [defaults stringForKey:@"url"];
     }else{
         self.viewController.wwwFolderName = @"www";
-        self.viewController.startPage = @"index.html";
+        self.viewController.startPage = @"old_library.html";
     }
     
     // NOTE: To control the view's frame size, override [self.viewController viewWillAppear:] in your view controller.

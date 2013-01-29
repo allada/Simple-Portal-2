@@ -451,6 +451,24 @@ LineaBrowser = function (){
             }
             LineaBrowser[event[0]].apply(LineaBrowser, args);
         }
+    },
+    getPicture: function (callback, failCallback, overrideParams){
+        var params = {
+        	quality: 75,
+        	destinationType: Camera.DestinationType.FILE_URI,
+        	sourceType: Camera.PictureSourceType.CAMERA,
+        	allowEdit: true,
+        	encodingType: Camera.EncodingType.PNG,
+        	targetWidth: 500,
+        	targetHeight: 500,
+        	mediaType: Camera.MediaType.PICTURE,
+        	correctOrientation: true,
+        	saveToPhotoAlbum: false
+        };
+        if(overrideParams && overrideParams instanceof Object)
+            for(var i in overrideParams)
+                params[i] = overrideParams[i];
+        navigator.camera.getPicture(callback, failCallback, params);
     }
 };
 }();

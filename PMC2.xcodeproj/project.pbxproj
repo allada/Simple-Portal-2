@@ -39,6 +39,11 @@
 		4D1EC767165BEE780098A713 /* BlueBambooPrinterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1EC766165BEE780098A713 /* BlueBambooPrinterObject.m */; };
 		4D5AE63D1604EC19003BC8CC /* CDVLineaDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AE63C1604EC19003BC8CC /* CDVLineaDevice.m */; };
 		4D7F0422161A3C72004FEEE1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D7F0421161A3C72004FEEE1 /* Default-568h@2x.png */; };
+		4D87D308166C2A740088F031 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D87D307166C2A740088F031 /* Default-Landscape.png */; };
+		4D87D30A166C2AA40088F031 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D87D309166C2AA40088F031 /* Default-Portrait.png */; };
+		4D87D313166C2BBC0088F031 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D87D311166C2BBC0088F031 /* Default-Landscape@2x~ipad.png */; };
+		4D87D314166C2BBC0088F031 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D87D312166C2BBC0088F031 /* Default-Portrait@2x~ipad.png */; };
+		4D87D31A166C2C630088F031 /* ipad-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D87D319166C2C630088F031 /* ipad-icon@2x.png */; };
 		4DBB00BB1607F6F9006FF512 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4DBB00BA1607F6F9006FF512 /* Settings.bundle */; };
 		4DD80F16160525E0005AE0AD /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD80F15160525E0005AE0AD /* CFNetwork.framework */; };
 		4DD80F1C160530FB005AE0AD /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 4DD80F1B160530FA005AE0AD /* VERSION */; };
@@ -58,7 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D16F9CF1604031100B87399 /* Starin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Starin.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D16F9CF1604031100B87399 /* PMC2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PMC2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D16F9D31604031100B87399 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4D16F9D51604031100B87399 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4D16F9D71604031100B87399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -72,10 +77,10 @@
 		4D16F9E71604031100B87399 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4D16F9E91604031100B87399 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4D16F9EB1604031100B87399 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		4D16F9EF1604031100B87399 /* Starin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Starin-Info.plist"; sourceTree = "<group>"; };
+		4D16F9EF1604031100B87399 /* PMC2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PMC2-Info.plist"; sourceTree = "<group>"; };
 		4D16F9F11604031100B87399 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4D16F9F31604031100B87399 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4D16F9F51604031100B87399 /* Starin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Starin-Prefix.pch"; sourceTree = "<group>"; };
+		4D16F9F51604031100B87399 /* PMC2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PMC2-Prefix.pch"; sourceTree = "<group>"; };
 		4D16F9FB1604031100B87399 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4D16F9FF1604031100B87399 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4D16FA031604031100B87399 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -104,6 +109,11 @@
 		4D5AE63B1604EC19003BC8CC /* CDVLineaDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLineaDevice.h; path = Plugins/CDVLineaDevice.h; sourceTree = "<group>"; };
 		4D5AE63C1604EC19003BC8CC /* CDVLineaDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLineaDevice.m; path = Plugins/CDVLineaDevice.m; sourceTree = "<group>"; };
 		4D7F0421161A3C72004FEEE1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
+		4D87D307166C2A740088F031 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape.png"; path = "Resources/splash/Default-Landscape.png"; sourceTree = "<group>"; };
+		4D87D309166C2AA40088F031 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait.png"; path = "Resources/splash/Default-Portrait.png"; sourceTree = "<group>"; };
+		4D87D311166C2BBC0088F031 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "Resources/splash/Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		4D87D312166C2BBC0088F031 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "Resources/splash/Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		4D87D319166C2C630088F031 /* ipad-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ipad-icon@2x.png"; path = "Resources/icons/ipad-icon@2x.png"; sourceTree = "<group>"; };
 		4DBB00BA1607F6F9006FF512 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4DD80F15160525E0005AE0AD /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4DD80F1A16053094005AE0AD /* CordovaBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CordovaBuildSettings.xcconfig; sourceTree = "<group>"; };
@@ -162,7 +172,7 @@
 		4D16F9D01604031100B87399 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D16F9CF1604031100B87399 /* Starin.app */,
+				4D16F9CF1604031100B87399 /* PMC2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,10 +216,10 @@
 			isa = PBXGroup;
 			children = (
 				4DD80F1B160530FA005AE0AD /* VERSION */,
-				4D16F9EF1604031100B87399 /* Starin-Info.plist */,
+				4D16F9EF1604031100B87399 /* PMC2-Info.plist */,
 				4D16F9F01604031100B87399 /* InfoPlist.strings */,
 				4D16F9F31604031100B87399 /* main.m */,
-				4D16F9F51604031100B87399 /* Starin-Prefix.pch */,
+				4D16F9F51604031100B87399 /* PMC2-Prefix.pch */,
 				4D16FA171604031100B87399 /* Cordova.plist */,
 				4D16FA201604031200B87399 /* MainViewController.xib */,
 				4D16FA241604031200B87399 /* verify.sh */,
@@ -268,6 +278,7 @@
 		4D16FA091604031100B87399 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				4D87D319166C2C630088F031 /* ipad-icon@2x.png */,
 				4D16FA0A1604031100B87399 /* icon.png */,
 				4D16FA0C1604031100B87399 /* icon@2x.png */,
 				4D16FA0E1604031100B87399 /* icon-72.png */,
@@ -278,6 +289,10 @@
 		4D16FA101604031100B87399 /* splash */ = {
 			isa = PBXGroup;
 			children = (
+				4D87D311166C2BBC0088F031 /* Default-Landscape@2x~ipad.png */,
+				4D87D312166C2BBC0088F031 /* Default-Portrait@2x~ipad.png */,
+				4D87D309166C2AA40088F031 /* Default-Portrait.png */,
+				4D87D307166C2A740088F031 /* Default-Landscape.png */,
 				4D7F0421161A3C72004FEEE1 /* Default-568h@2x.png */,
 				4D16FA111604031100B87399 /* Default~iphone.png */,
 				4D16FA131604031100B87399 /* Default@2x~iphone.png */,
@@ -340,9 +355,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D16F9CE1604031100B87399 /* Starin */ = {
+		4D16F9CE1604031100B87399 /* PMC2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "Starin" */;
+			buildConfigurationList = 4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "PMC2" */;
 			buildPhases = (
 				4D16F9C81604031100B87399 /* Sources */,
 				4D16F9C91604031100B87399 /* Frameworks */,
@@ -355,9 +370,9 @@
 			);
 			dependencies = (
 			);
-			name = Starin;
+			name = PMC2;
 			productName = RetailOps;
-			productReference = 4D16F9CF1604031100B87399 /* Starin.app */;
+			productReference = 4D16F9CF1604031100B87399 /* PMC2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -369,7 +384,7 @@
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Starin Marketing Inc.";
 			};
-			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "Starin" */;
+			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "PMC2" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -390,7 +405,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				4D16F9CE1604031100B87399 /* Starin */,
+				4D16F9CE1604031100B87399 /* PMC2 */,
 			);
 		};
 /* End PBXProject section */
@@ -424,6 +439,11 @@
 				4DD80F1E160532DB005AE0AD /* www in Resources */,
 				4DBB00BB1607F6F9006FF512 /* Settings.bundle in Resources */,
 				4D7F0422161A3C72004FEEE1 /* Default-568h@2x.png in Resources */,
+				4D87D308166C2A740088F031 /* Default-Landscape.png in Resources */,
+				4D87D30A166C2AA40088F031 /* Default-Portrait.png in Resources */,
+				4D87D313166C2BBC0088F031 /* Default-Landscape@2x~ipad.png in Resources */,
+				4D87D314166C2BBC0088F031 /* Default-Portrait@2x~ipad.png in Resources */,
+				4D87D31A166C2C630088F031 /* ipad-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,7 +613,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RetailOps/Starin-Prefix.pch";
+				GCC_PREFIX_HEADER = "RetailOps/PMC2-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
@@ -604,7 +624,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				INFOPLIST_FILE = "RetailOps/Starin-Info.plist";
+				INFOPLIST_FILE = "RetailOps/PMC2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -624,7 +644,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = Starin;
+				PRODUCT_NAME = PMC2;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -647,7 +667,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RetailOps/Starin-Prefix.pch";
+				GCC_PREFIX_HEADER = "RetailOps/PMC2-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
@@ -657,7 +677,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				INFOPLIST_FILE = "RetailOps/Starin-Info.plist";
+				INFOPLIST_FILE = "RetailOps/PMC2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -677,7 +697,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = Starin;
+				PRODUCT_NAME = PMC2;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -691,7 +711,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D16F9C61604031100B87399 /* Build configuration list for PBXProject "Starin" */ = {
+		4D16F9C61604031100B87399 /* Build configuration list for PBXProject "PMC2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D16FA251604031200B87399 /* Debug */,
@@ -700,7 +720,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "Starin" */ = {
+		4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "PMC2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D16FA281604031200B87399 /* Debug */,
