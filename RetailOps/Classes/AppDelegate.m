@@ -49,11 +49,12 @@
     NSAssert(!self.viewController, @"ViewController already created.");
     self.viewController = [[ViewController alloc] init];
     self.viewController.useSplashScreen = YES;
-    self.viewController.wwwFolderName = @"www";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([[defaults stringForKey:@"url"] length]){
+        self.viewController.wwwFolderName = nil;
         self.viewController.startPage = [defaults stringForKey:@"url"];
     }else{
+        self.viewController.wwwFolderName = @"www";
         self.viewController.startPage = @"index.html";
     }
     
