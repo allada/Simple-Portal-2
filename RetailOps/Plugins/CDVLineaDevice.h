@@ -29,5 +29,23 @@
 - (void) setScanButtonMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setMSCardDataMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setBarcodeTypeMode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+
+// BEGIN PRINTER FUNCTIONS
+- (void) connectPrinter:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) discoverPrinters:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) getDeviceName:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) getPrinterStatus:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) feedPaper:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) printBarcode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setBarcodeSettings:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setDensity:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setLineSpace:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setLeftMargin:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) printText:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) printImage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) printDelimiter:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) waitOnPrintJob:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+
+// END PRINTER FUNCTIONS
 // End JS Callable Functions
 @end

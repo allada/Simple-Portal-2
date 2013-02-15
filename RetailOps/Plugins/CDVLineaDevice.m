@@ -6,16 +6,14 @@
 //
 
 #import "CDVLineaDevice.h"
-
 @implementation CDVLineaDevice
 @synthesize callbackId;
-
 - (CDVPlugin*) initWithWebView:(UIWebView*)theWebView {
     LOG(@"initing Linea Device Plugin");
     self = [super initWithWebView:theWebView];
     [[NSNotificationCenter defaultCenter]
         addObserver:self
-        selector:@selector(disconnectLinea:)
+        selector:@selector(appMinimizing:)
         name:UIApplicationWillResignActiveNotification
         object:nil];
     [[NSNotificationCenter defaultCenter]
@@ -31,7 +29,9 @@
     [self connectLinea: nil];
     return self;
 }
-
+- (void) appMinimizing:(NSNotification *)notification {
+    LOG(@"App minimizing");
+}
 - (void) connectLinea:(NSNotification *)notification {
     LOG(@"Connecting to linea device");
     if(linea == nil)
@@ -39,7 +39,7 @@
 	[linea addDelegate:self];
 	[linea connect];
 }
-- (void) disconnectLinea:(NSNotification *)notification {
+- (void) disconnectLinea{
     LOG(@"Disconnecting from linea device");
     [linea disconnect];
     [linea removeDelegate:self];
@@ -51,6 +51,8 @@
  */
 #ifndef BEGIN_ARGCHECKWRAPPER
 #define BEGIN_ARGCHECKWRAPPER(required_args, lineaConnectedCheck) \
+	dispatch_queue_t thread = dispatch_queue_create("jsquery_queue", NULL); \
+	dispatch_async(thread, ^{ \
     int i; \
     NSString* localCallbackId = [arguments objectAtIndex:0]; \
     CDVPluginResult* pluginResult = nil; \
@@ -76,9 +78,16 @@
         javaScript = [pluginResult toErrorCallbackString:localCallbackId]; \
     } \
     [returnArgs release]; \
-    [self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]];
+	if(![[NSThread currentThread] isMainThread]){ \
+		dispatch_sync(dispatch_get_main_queue(), ^{ \
+			[self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]]; \
+		}); \
+	}else{ \
+		[self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]]; \
+	} \
+	}); \
+	dispatch_release(thread);
 #define IF_NULLOBJ(item) item ? item : [NSNull null]
-
 #endif
 // Begin callable functions from javascript
 /*
@@ -119,6 +128,165 @@
     }
     END_ARGCHECKWRAPPER
 }
+
+// Begin Bluetooth printer functions
+- (void) connectPrinter:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    NSString *address = [arguments objectAtIndex:1];
+    NSError *err = nil;
+    if(![linea btConnectSupportedDevice:address pin:@"0000" error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    LOG(@"Trying to connect to printer: %@", address);
+    
+    END_ARGCHECKWRAPPER
+}
+- (void) discoverPrinters:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(2, true)
+    int maxDevices	= [[arguments objectAtIndex:1] intValue];
+    double maxTime	= [[arguments objectAtIndex:2] doubleValue];
+    LOG(@"Looking for printers max: %i maxTime: %f", maxDevices, maxTime);
+    NSError *err = nil;
+
+    if(maxDevices == 0 && ![linea btDiscoverPrintersInBackground:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }else if(![linea btDiscoverPrintersInBackground:maxDevices maxTime:maxTime error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) getDeviceName:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    NSString *address	= [arguments objectAtIndex:1];
+    NSError *err = nil;
+    NSString *deviceName;
+    
+    if((deviceName = [linea btGetDeviceName:address error:&err]) == nil){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    [returnArgs addObject:deviceName];
+    END_ARGCHECKWRAPPER
+}
+- (void) getPrinterStatus:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(0, true)
+    int status;
+    NSError *err = nil;
+    
+    if([linea prnGetPrinterStatus:&status error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    [returnArgs addObject:[NSNumber numberWithInt:status]];
+    END_ARGCHECKWRAPPER
+}
+- (void) feedPaper:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    int lines	= [[arguments objectAtIndex:1] intValue];
+    NSError *err = nil;
+    
+    if([linea prnFeedPaper:lines error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) printBarcode:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(2, true)
+    int bartype	= [[arguments objectAtIndex:1] intValue];
+    NSData *data = [[arguments objectAtIndex:2] dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err = nil;
+    
+    if([linea prnPrintBarcode:bartype barcode:data error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) setBarcodeSettings:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(4, true)
+    int scale	= [[arguments objectAtIndex:1] intValue];
+    int height	= [[arguments objectAtIndex:2] intValue];
+    int hriPosition	= [[arguments objectAtIndex:3] intValue];
+    int align	= [[arguments objectAtIndex:4] intValue];
+    NSError *err = nil;
+    
+    if([linea prnSetBarcodeSettings:scale height:height hriPosition:hriPosition align:align error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) setDensity:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    int perc	= [[arguments objectAtIndex:1] intValue];
+    NSError *err = nil;
+    
+    if([linea prnSetDensity:perc error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) setLineSpace:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    int space	= [[arguments objectAtIndex:1] intValue];
+    NSError *err = nil;
+    
+    if([linea prnSetLineSpace:space error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) setLeftMargin:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    int margin	= [[arguments objectAtIndex:1] intValue];
+    NSError *err = nil;
+    
+    if([linea prnSetLeftMargin:margin error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) printText:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    NSString *text	= [arguments objectAtIndex:1];
+    NSError *err = nil;
+    
+    if(![linea prnPrintText:text usingEncoding:NSUTF8StringEncoding error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) printImage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    UIImage *img = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[arguments objectAtIndex:1]]]];
+    int align = [[arguments objectAtIndex:2] intValue];
+    NSError *err = nil;
+    
+    if(![linea prnPrintImage:img align:align error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) printDelimiter:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    char delim	= [[arguments objectAtIndex:1] characterAtIndex:0];
+    NSError *err = nil;
+    
+    if(!delim){
+        [NSException raise:@"InvalidParam" format:@"First param must be valid character"];
+    }else if([linea prnPrintDelimiter:delim error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+- (void) waitOnPrintJob:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    BEGIN_ARGCHECKWRAPPER(1, true)
+    double timeout	= [[arguments objectAtIndex:1] doubleValue];
+    NSError *err = nil;
+    
+    if([linea prnWaitPrintJob:timeout error:&err]){
+        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+    }
+    END_ARGCHECKWRAPPER
+}
+
+// End Bluetooth printer functions
 /**
  * Plays a sound.
  * @arguments[1] int        Volume (Currently the Linea Device does not support this)
@@ -332,7 +500,15 @@
     	javaScript = [pluginResult toErrorCallbackString:localCallbackId];
 	}
 	[returnArgs release];
-	[self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]];
+	if(![[NSThread currentThread] isMainThread]){
+    	dispatch_sync(dispatch_get_main_queue(), ^{
+        	[self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]];
+	    });
+	}else{
+    	[self writeJavascript:[NSString stringWithFormat:@"window.setTimeout(function(){%@;},0);", javaScript]];
+	}
+	});
+	dispatch_release(thread);
 }
 /**
  * Unsets the function used to monitor events from the linea device.
@@ -433,6 +609,7 @@
  */
 -(void)paperStatus:(BOOL)present{
     BEGIN_JSINJECTWARPPER
+    LOG(@"Printer Paper Status: %i", present);
     [returnArgs addObject:@"paperStatus"];
     [returnArgs addObject:[NSNumber numberWithBool:present]];
     END_JSINJECTWRAPPER
@@ -456,28 +633,29 @@
 }
 -(void)bluetoothDeviceConnected:(NSString *)btAddress{
     BEGIN_JSINJECTWARPPER
+    LOG(@"BT Device Connected %@", btAddress);
     [returnArgs addObject:@"bluetoothDeviceConnected"];
-    [returnArgs addObject:btAddress];
     END_JSINJECTWRAPPER
 }
 -(void)bluetoothDeviceDisconnected:(NSString *)btAddress{
     BEGIN_JSINJECTWARPPER
+    LOG(@"BT Device Disconnected %@", btAddress);
     [returnArgs addObject:@"bluetoothDeviceDisconnected"];
-    [returnArgs addObject:btAddress];
     END_JSINJECTWRAPPER
 }
 -(void)bluetoothDiscoverComplete:(BOOL)success{
     BEGIN_JSINJECTWARPPER
+    LOG(@"BT Discover Complete");
     [returnArgs addObject:@"bluetoothDiscoverComplete"];
     [returnArgs addObject:[NSNumber numberWithBool:success]];
     END_JSINJECTWRAPPER
 }
--(void)bluetoothDeviceDiscovered:(NSString *)btAddress name:(NSString *)btName:(BOOL)success{
+-(void)bluetoothDeviceDiscovered:(NSString *)btAddress name:(NSString *)btName{
     BEGIN_JSINJECTWARPPER
+    LOG(@"BT Discovered");
     [returnArgs addObject:@"bluetoothDeviceDiscovered"];
     [returnArgs addObject:btAddress];
     [returnArgs addObject:btName];
-    [returnArgs addObject:[NSNumber numberWithBool:success]];
     END_JSINJECTWRAPPER
 }
 -(void)rfCardRemoved: (int) cardIndex{
@@ -515,7 +693,15 @@
  * @returns [(string) 'featureSupported', (int) feature, (int) value]
  */
 - (void)deviceFeatureSupported: (int) feature value:(int) value{
-    LOG(@"Button Released");
+    switch(feature){
+        case FEAT_PRINTING:
+            if(value == FEAT_SUPPORTED){
+                // You must send the printer something after a connect.
+                [self bluetoothDeviceConnected:nil];
+            }
+            break;
+    }
+    LOG(@"Feature Supported: %i %i", feature, value);
     BEGIN_JSINJECTWARPPER
     [returnArgs addObject:@"featureSupported"];
     [returnArgs addObject:[NSNumber numberWithInt:feature]];
@@ -538,5 +724,8 @@
     [returnArgs addObject:objState];
     END_JSINJECTWRAPPER
 }
+// BEGIN PRINTER DELIGATES
+
+// END PRINTER DELIGATES
 // End called functions from Linea Device
 @end

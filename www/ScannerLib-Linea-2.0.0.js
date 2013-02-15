@@ -349,8 +349,8 @@ ScannerDevice = function (mappings){
 	* Gets the mode barcodes will be scanned in. See: ScannerDevice.CONSTANTS.BARCODE_TYPE_*
 	* @param {Function} callback Callback to execute after info is received. Example: function (params) { var bar_type_mode = params[0]; }
 	*/
-	this.getBarcodeTypeMode = function (type, callback){
-		this.sendCommand('getBarcodeTypeMode', [], function (){
+	this.getBarcodeTypeMode = function (callback, type){
+		this.sendCommand('getBarcodeTypeMode', [type], function (){
 			callback(params[0]);
 		});
 	};
@@ -361,15 +361,15 @@ ScannerDevice = function (mappings){
 	* @param {Boolean} enabled Weather to enable or disable engine.
 	*/
 	this.barcodeEnginePowerControl = function (enabled){
-		this.sendCommand('barcodeEnginePowerControl', []);
+		this.sendCommand('barcodeEnginePowerControl', [enabled]);
 	};
 	/**
 	* Helper function to get the name of barcodes by their code.
 	* 
 	* @param {Int} type Barcode type to get name. See: ScannerDeice.CONSTANTS.BAR_TYPES.* for available barcodes.
 	*/
-	this.barcodeType2Text = function (type, callback){
-		this.sendCommand('barcodeType2Text', [], function (params){
+	this.barcodeType2Text = function (callback, type){
+		this.sendCommand('barcodeType2Text', [type], function (params){
 			callback(params[0]);
 		});
 	};
@@ -378,11 +378,82 @@ ScannerDevice = function (mappings){
 	* 
 	* @param {Function} callback Callback to execute after info is received. Example: function (params) { var state = params[0]; } // See ScannerDevice.CONSTANTS.CONN_*
 	*/
+    this.connectPrinter = function (callback, address){
+        this.sendCommand('connectPrinter', [address], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
 	this.getConnectionState = function (callback){
 		this.sendCommand('getConnectionState', [], function (params){
-			callback(params[0]);
+			if(callback instanceof Function) callback(params[0]);
 		});
-	}
+	};
+    this.discoverPrinters = function (callback, maxDevices, maxTime){
+        this.sendCommand('discoverPrinters', [maxDevices, maxTime], function (){
+        	if(callback instanceof Function) callback();
+        });
+    };
+    this.getDeviceName = function (callback, address){
+        this.sendCommand('getDeviceName', [address], function (params){
+        	if(callback instanceof Function) callback(params[0]);
+		});
+    };
+    this.getPrinterStatus = function (callback){
+        this.sendCommand('getPrinterStatus', [], function (params){
+        	if(callback instanceof Function) callback(params[0]);
+		});
+    };
+    this.feedPaper = function (callback, lines){
+        this.sendCommand('feedPaper', [lines], function (){
+        	if(callback instanceof Function) callback();
+        });
+    };
+    this.printBarcode = function (callback, data, barcodeType){
+        this.sendCommand('printBarcode', [data, barcodeType], function (){
+			if(callback instanceof Function) callback();
+		});
+    };
+    this.setBarcodeSettings = function (callback, scale, height, hriPosition, align){
+        this.sendCommand('printBarcode', [scale, height, hriPosition, align], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.setDensity = function (callback, perc){
+        this.sendCommand('setDensity', [perc], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.setLineSpace = function (callback, space){
+        this.sendCommand('setLineSpace', [space], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.setLeftMargin = function (callback, margin){
+        this.sendCommand('setLeftMargin', [margin], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.printText = function (callback, text){
+        this.sendCommand('printText', [text], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.printImage = function (callback, imageURI, align){
+        this.sendCommand('printImage', [imageURI, align], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.printDelimiter = function (callback, delim){
+        this.sendCommand('printDelimiter', [delim], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+    this.waitOnPrintJob = function (callback, timeout){
+        this.sendCommand('waitOnPrintJob', [timeout], function (){
+            if(callback instanceof Function) callback();
+        });
+    };
+
 	var i;
 	for(i in mappings){
 		if(ScannerDevice.allowedCallbacks.indexOf(i) != -1 && mappings[i] && mappings[i] instanceof Function){
@@ -399,7 +470,14 @@ ScannerDevice.allowedCallbacks = [
 	'magneticCardRawData',
 	'buttonPressed',
 	'buttonReleased',
-	'connectionState'
+	'connectionState',
+    'paperStatus',
+    'rfCardDetected',
+    'bluetoothDeviceConnected',
+    'bluetoothDeviceDisconnected',
+    'bluetoothDiscoverComplete',
+    'bluetoothDeviceDiscovered',
+    'rfCardRemoved',
 ];
 /**
 * Allowed functions that scanner accepts.
@@ -427,6 +505,20 @@ ScannerDevice.allowedFunctions = [
 	'barcodeEnginePowerControl',
 	'barcodeType2Text',
 	'getConnectionState',
+    'connectPrinter',
+    'discoverPrinters',
+    'getDeviceName',
+    'getPrinterStatus',
+    'feedPaper',
+    'printBarcode',
+    'setBarcodeSettings',
+    'setDensity',
+    'setLineSpace',
+    'setLeftMargin',
+    'printText',
+    'printImage',
+    'printDelimiter',
+    'waitOnPrintJob',
 ];
 /**
 * List of objects listeneing on device.
