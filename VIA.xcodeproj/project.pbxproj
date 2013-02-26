@@ -63,7 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D16F9CF1604031100B87399 /* PMC2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PMC2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D16F9CF1604031100B87399 /* VIA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VIA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D16F9D31604031100B87399 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4D16F9D51604031100B87399 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4D16F9D71604031100B87399 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -77,10 +77,10 @@
 		4D16F9E71604031100B87399 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4D16F9E91604031100B87399 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4D16F9EB1604031100B87399 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		4D16F9EF1604031100B87399 /* PMC2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PMC2-Info.plist"; sourceTree = "<group>"; };
+		4D16F9EF1604031100B87399 /* VIA-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VIA-Info.plist"; sourceTree = "<group>"; };
 		4D16F9F11604031100B87399 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4D16F9F31604031100B87399 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4D16F9F51604031100B87399 /* PMC2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PMC2-Prefix.pch"; sourceTree = "<group>"; };
+		4D16F9F51604031100B87399 /* VIA-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VIA-Prefix.pch"; sourceTree = "<group>"; };
 		4D16F9FB1604031100B87399 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4D16F9FF1604031100B87399 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4D16FA031604031100B87399 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		4D16F9D01604031100B87399 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D16F9CF1604031100B87399 /* PMC2.app */,
+				4D16F9CF1604031100B87399 /* VIA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,10 +216,10 @@
 			isa = PBXGroup;
 			children = (
 				4DD80F1B160530FA005AE0AD /* VERSION */,
-				4D16F9EF1604031100B87399 /* PMC2-Info.plist */,
+				4D16F9EF1604031100B87399 /* VIA-Info.plist */,
 				4D16F9F01604031100B87399 /* InfoPlist.strings */,
 				4D16F9F31604031100B87399 /* main.m */,
-				4D16F9F51604031100B87399 /* PMC2-Prefix.pch */,
+				4D16F9F51604031100B87399 /* VIA-Prefix.pch */,
 				4D16FA171604031100B87399 /* Cordova.plist */,
 				4D16FA201604031200B87399 /* MainViewController.xib */,
 				4D16FA241604031200B87399 /* verify.sh */,
@@ -355,9 +355,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D16F9CE1604031100B87399 /* PMC2 */ = {
+		4D16F9CE1604031100B87399 /* VIA */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "PMC2" */;
+			buildConfigurationList = 4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "VIA" */;
 			buildPhases = (
 				4D16F9C81604031100B87399 /* Sources */,
 				4D16F9C91604031100B87399 /* Frameworks */,
@@ -370,9 +370,9 @@
 			);
 			dependencies = (
 			);
-			name = PMC2;
+			name = VIA;
 			productName = RetailOps;
-			productReference = 4D16F9CF1604031100B87399 /* PMC2.app */;
+			productReference = 4D16F9CF1604031100B87399 /* VIA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -384,7 +384,7 @@
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Starin Marketing Inc.";
 			};
-			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "PMC2" */;
+			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "VIA" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -405,7 +405,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				4D16F9CE1604031100B87399 /* PMC2 */,
+				4D16F9CE1604031100B87399 /* VIA */,
 			);
 		};
 /* End PBXProject section */
@@ -613,7 +613,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RetailOps/PMC2-Prefix.pch";
+				GCC_PREFIX_HEADER = "RetailOps/VIA-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
@@ -624,7 +624,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				INFOPLIST_FILE = "RetailOps/PMC2-Info.plist";
+				INFOPLIST_FILE = "RetailOps/VIA-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -644,7 +644,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = PMC2;
+				PRODUCT_NAME = VIA;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -667,7 +667,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RetailOps/PMC2-Prefix.pch";
+				GCC_PREFIX_HEADER = "RetailOps/VIA-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
@@ -677,7 +677,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				INFOPLIST_FILE = "RetailOps/PMC2-Info.plist";
+				INFOPLIST_FILE = "RetailOps/VIA-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -697,7 +697,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = PMC2;
+				PRODUCT_NAME = VIA;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -711,7 +711,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D16F9C61604031100B87399 /* Build configuration list for PBXProject "PMC2" */ = {
+		4D16F9C61604031100B87399 /* Build configuration list for PBXProject "VIA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D16FA251604031200B87399 /* Debug */,
@@ -720,7 +720,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "PMC2" */ = {
+		4D16FA271604031200B87399 /* Build configuration list for PBXNativeTarget "VIA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D16FA281604031200B87399 /* Debug */,

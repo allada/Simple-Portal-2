@@ -14,9 +14,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D16F9CE1604031100B87399"
-               BuildableName = "PMC2.app"
-               BlueprintName = "PMC2"
-               ReferencedContainer = "container:PMC2.xcodeproj">
+               BuildableName = "VIA.app"
+               BlueprintName = "VIA"
+               ReferencedContainer = "container:VIA.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
-            BuildableName = "PMC2.app"
-            BlueprintName = "PMC2"
-            ReferencedContainer = "container:PMC2.xcodeproj">
+            BuildableName = "VIA.app"
+            BlueprintName = "VIA"
+            ReferencedContainer = "container:VIA.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -57,7 +57,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
-            BuildableName = "PMC2.app"
-            BlueprintName = "PMC2"
-            ReferencedContainer = "container:PMC2.xcodeproj">
+            BuildableName = "VIA.app"
+            BlueprintName = "VIA"
+            ReferencedContainer = "container:VIA.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D16F9CE1604031100B87399"
-            BuildableName = "PMC2.app"
-            BlueprintName = "PMC2"
-            ReferencedContainer = "container:PMC2.xcodeproj">
+            BuildableName = "VIA.app"
+            BlueprintName = "VIA"
+            ReferencedContainer = "container:VIA.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
