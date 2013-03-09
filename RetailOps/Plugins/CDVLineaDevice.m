@@ -135,7 +135,7 @@
     NSString *address = [arguments objectAtIndex:1];
     NSError *err = nil;
     if(![linea btConnectSupportedDevice:address pin:@"0000" error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     LOG(@"Trying to connect to printer: %@", address);
     
@@ -149,9 +149,9 @@
     NSError *err = nil;
 
     if(maxDevices == 0 && ![linea btDiscoverPrintersInBackground:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }else if(![linea btDiscoverPrintersInBackground:maxDevices maxTime:maxTime error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -162,7 +162,7 @@
     NSString *deviceName;
     
     if((deviceName = [linea btGetDeviceName:address error:&err]) == nil){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     [returnArgs addObject:deviceName];
     END_ARGCHECKWRAPPER
@@ -173,7 +173,7 @@
     NSError *err = nil;
     
     if([linea prnGetPrinterStatus:&status error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     [returnArgs addObject:[NSNumber numberWithInt:status]];
     END_ARGCHECKWRAPPER
@@ -184,7 +184,7 @@
     NSError *err = nil;
     
     if([linea prnFeedPaper:lines error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -195,7 +195,7 @@
     NSError *err = nil;
     
     if([linea prnPrintBarcode:bartype barcode:data error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -208,7 +208,7 @@
     NSError *err = nil;
     
     if([linea prnSetBarcodeSettings:scale height:height hriPosition:hriPosition align:align error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -218,7 +218,7 @@
     NSError *err = nil;
     
     if([linea prnSetDensity:perc error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -228,7 +228,7 @@
     NSError *err = nil;
     
     if([linea prnSetLineSpace:space error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -238,7 +238,7 @@
     NSError *err = nil;
     
     if([linea prnSetLeftMargin:margin error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -248,7 +248,7 @@
     NSError *err = nil;
     
     if(![linea prnPrintText:text usingEncoding:NSUTF8StringEncoding error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -259,7 +259,7 @@
     NSError *err = nil;
     
     if(![linea prnPrintImage:img align:align error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -271,7 +271,7 @@
     if(!delim){
         [NSException raise:@"InvalidParam" format:@"First param must be valid character"];
     }else if([linea prnPrintDelimiter:delim error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }
@@ -281,7 +281,7 @@
     NSError *err = nil;
     
     if([linea prnWaitPrintJob:timeout error:&err]){
-        [NSException raise:@"InternalError" format:@"%@", (err != nil)?@"Unknown Error":(err != nil)?@"Unknown Error":[err localizedDescription]];
+        [NSException raise:@"InternalError" format:@"%@", (err == nil)?@"Unknown Error":[err localizedDescription]];
     }
     END_ARGCHECKWRAPPER
 }

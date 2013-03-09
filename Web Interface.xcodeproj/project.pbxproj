@@ -557,8 +557,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Bruer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nathan Bruer";
 				COPY_PHASE_STRIP = YES;
 				CORDOVALIB = "$(CORDOVALIB)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -576,8 +576,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "E878E359-411B-4A19-93B3-0F260B346882";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E878E359-411B-4A19-93B3-0F260B346882";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
@@ -644,8 +644,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Bruer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nathan Bruer";
 				COPY_PHASE_STRIP = YES;
 				CORDOVALIB = "$(CORDOVALIB)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -682,8 +682,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "Web Interface";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "E878E359-411B-4A19-93B3-0F260B346882";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E878E359-411B-4A19-93B3-0F260B346882";
 				STRIP_INSTALLED_PRODUCT = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

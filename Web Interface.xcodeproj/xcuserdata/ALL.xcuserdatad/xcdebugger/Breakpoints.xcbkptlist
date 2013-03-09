@@ -94,6 +94,19 @@
          landmarkName = "-connectPrinter:withDict:"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "RetailOps/Plugins/CDVLineaDevice.m"
+         timestampString = "384562466.808304"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
+         landmarkName = "-discoverPrinters:withDict:"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
    <ExceptionBreakpoints>
       <ExceptionBreakpoint

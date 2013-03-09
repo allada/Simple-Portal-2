@@ -453,7 +453,29 @@ ScannerDevice = function (mappings){
             if(callback instanceof Function) callback();
         });
     };
-
+	this.getPicture = function (callback, failCallback, overrideParams){
+        var params = {
+        	quality: 75,
+        	destinationType: Camera.DestinationType.FILE_URI,
+        	sourceType: Camera.PictureSourceType.CAMERA,
+        	allowEdit: true,
+        	encodingType: Camera.EncodingType.PNG,
+        	targetWidth: 500,
+        	targetHeight: 500,
+        	mediaType: Camera.MediaType.PICTURE,
+        	correctOrientation: true,
+        	saveToPhotoAlbum: false
+        };
+        if(overrideParams && overrideParams instanceof Object)
+            for(var i in overrideParams)
+                params[i] = overrideParams[i];
+        navigator.camera.getPicture(function (uri){
+            if(uri.substring(0, 7) == 'file://'){
+                uri = 'http://'+uri.substring(7);
+            }
+            callback(uri);
+        }, failCallback, params);
+    };
 	var i;
 	for(i in mappings){
 		if(ScannerDevice.allowedCallbacks.indexOf(i) != -1 && mappings[i] && mappings[i] instanceof Function){
