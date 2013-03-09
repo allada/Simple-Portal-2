@@ -20,6 +20,14 @@
 #import <UIKit/UIKit.h>
 #import "Cordova/CDVViewController.h"
 
-@interface ViewController : CDVViewController
+
+@interface ViewController : CDVViewController{
+    CFSocketRef socket;
+    NSFileHandle *listeningHandle;
+	NSMutableDictionary *incomingRequests;
+	NSMutableSet *responseHandlers;
+    NSLock *requestsLock;
+}
 
 @end
+extern NSString * const HTTPServerNotificationStateChanged;

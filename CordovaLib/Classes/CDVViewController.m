@@ -171,8 +171,8 @@
         appURL = nil;
     } else {
         if(self.wwwFolderName == nil){
-            self.wwwFolderName = @"www";
-            appURL = [NSURL URLWithString:[_commandDelegate pathForResource:@"frame.html"]];
+            //self.wwwFolderName = @"www";
+            appURL = [NSURL URLWithString:self.startPage];//[NSURL URLWithString:[_commandDelegate pathForResource:@"old_library.html"]];
             self.wwwFolderName = nil;
         }else{
             appURL = [NSURL fileURLWithPath:startFilePath];
@@ -479,7 +479,8 @@
  */
 - (void)webViewDidFinishLoad:(UIWebView*)theWebView
 {
-    [self.commandDelegate evalJs:[NSString stringWithFormat:@"if(window.parent == window && document.getElementById('mainFrame').src == 'about:blank') document.getElementById('mainFrame').src='%@';", self.startPage]];
+    //[self.commandDelegate evalJs:[NSString stringWithFormat:@"if(window.parent == window && document.getElementById('mainFrame').src == 'about:blank') document.getElementById('mainFrame').src='%@';", self.startPage]];
+
     /*
      * Hide the Top Activity THROBBER in the Battery Bar
      */

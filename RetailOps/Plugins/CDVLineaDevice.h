@@ -5,7 +5,8 @@
 //  Copyright (c) 2012 Allada Inc. All rights reserved.
 //
 #ifndef LOG
-	#define LOG(s, ...) NSLog(@"<%s : (%d)> %@", __FUNCTION__, __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__])
+	//#define LOG(s, ...) NSLog(@"<%s : (%d)> %@", __FUNCTION__, __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__])
+	#define LOG(s, ...)
 #endif
 #import <Cordova/CDVPlugin.h>
 #import <Foundation/NSNull.h>
