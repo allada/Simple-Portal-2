@@ -9,7 +9,7 @@ Debugging = true;
 * constructed or no events will be passed to function.
 * 
 * @param {Object} mappings If you wish to set listeners, you do it here by passing the listener function here.
-* @example DeviceObject = ScannerDevice({
+* @example DeviceObject = new ScannerDevice({
 	barcodeData: function (data, bar_type){
 		alert('Barcode scanned with with data: '+data+' and of type: '+bar_type);
 	},
@@ -798,10 +798,10 @@ ScannerDevice.lastSettings = {
 		}
 	}
 })();
-
 ScannerDevice.LAZER_ON = false;
 ScannerDevice.CONNECTION_STATE = ScannerDevice.CONSTANTS.CONN_DISCONNECTED;
 ScannerDevice.BUTTON_PRESSED = false;
+ScannerDevice.API_VERSION = '2.0';
 /**
 * @ignore
 */

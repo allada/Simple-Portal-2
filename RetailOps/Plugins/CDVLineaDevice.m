@@ -724,8 +724,6 @@
     [returnArgs addObject:objState];
     END_JSINJECTWRAPPER
 }
-// BEGIN PRINTER DELIGATES
-
 // END PRINTER DELIGATES
 // End called functions from Linea Device
 @end
