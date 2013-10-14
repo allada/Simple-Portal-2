@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>90DC34EE-B60C-4DA7-B4A0-C3D60909E26D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Web Interface</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>39355922-4F8E-4ED3-AB9D-8270D27FCB06</key>
+		<string>https://github.com/starin/Simple-Portal-2.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Web Interface.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>39355922-4F8E-4ED3-AB9D-8270D27FCB06</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/starin/Simple-Portal-2.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>39355922-4F8E-4ED3-AB9D-8270D27FCB06</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>39355922-4F8E-4ED3-AB9D-8270D27FCB06</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Simple-Portal-2</string>
+		</dict>
+	</array>
+</dict>
+</plist>

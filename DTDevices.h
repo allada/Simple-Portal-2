@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 
-
 /**
  * Device type
  */
@@ -285,6 +284,14 @@ typedef enum {
  Encrypted Head MAGTEK encryption algorithm
  */
 #define ALG_EH_MAGTEK   4
+/**
+ Encrypted Head 3DES encryption algorithm
+ */
+#define ALG_EH_3DES   5
+/**
+ Encrypted Head RSA encryption algorithm
+ */
+#define ALG_EH_RSA_OAEP   6
 
 /**
  Authentication key
@@ -322,15 +329,15 @@ extern const uint8_t KEY_AES256_EMPTY[32];
  */
 typedef enum {
     /**
-     PIN will be formatted, according to ISO0
+     PIN will be formatted, according to ISO 9564-0
      */
 	PIN_FORMAT_ISO0=0x04,
     /**
-     PIN will be formatted, according to ISO1
+     PIN will be formatted, according to ISO 9564-1
      */
 	PIN_FORMAT_ISO1=0x05,
     /**
-     PIN will be formatted, according to ISO3
+     PIN will be formatted, according to ISO 9564-3
      */
 	PIN_FORMAT_ISO3=0x0D,
 }PIN_ENCRYPTION_FORMATS;
@@ -380,9 +387,9 @@ typedef enum
      */
 	CARD_MIFARE_ULTRALIGHT_C,
     /**
-     ISO 14443
+     ISO 14443A
      */
-	CARD_ISO14443,
+	CARD_ISO14443A,
     /**
      Mifare Plus
      */
@@ -395,7 +402,61 @@ typedef enum
      Mifare Desfire
      */
 	CARD_MIFARE_DESFIRE,
+    /**
+     ISO 14443B
+     */
+	CARD_ISO14443B,
+    /**
+     FeliCa
+     */
+	CARD_FELICA,
 }RF_CARD_TYPES;
+
+/**
+ FeliCa SmartTag battery status
+ */
+typedef enum
+{
+    /**
+     Normal, card can be used
+     */
+	FELICA_SMARTTAG_BATTERY_NORMAL1=0,
+    /**
+     Normal, card can be used
+     */
+	FELICA_SMARTTAG_BATTERY_NORMAL2,
+    /**
+     Low, consider replacing
+     */
+    FELICA_SMARTTAG_BATTERY_LOW1,
+    /**
+     Very Low, replace it
+     */
+    FELICA_SMARTTAG_BATTERY_LOW2,
+}FELICA_SMARTTAG_BATERY_STATUSES;
+
+/**
+ FeliCa SmartTag battery status
+ */
+typedef enum
+{
+    /**
+     The area outside of the image will be emptied
+     */
+	FELICA_SMARTTAG_DRAW_WHITE_BACKGROUND=0,
+    /**
+     The area outside of the image will be shown black
+     */
+	FELICA_SMARTTAG_DRAW_BLACK_BACKGROUND,
+    /**
+     The area outside of the image will be kept to its current state
+     */
+    FELICA_SMARTTAG_DRAW_KEEP_BACKGROUND,
+    /**
+     The area outside of the image will be drawn using one of the previously stored layouts
+     */
+    FELICA_SMARTTAG_DRAW_USE_LAYOUT
+}FELICA_SMARTTAG_DRAW_MODES;
 
 /**
  RF card type, one of the CARD_* constants
@@ -497,6 +558,14 @@ typedef enum
      EMV Level 2 Kernel
      */
     FEAT_EMVL2_KERNEL,
+    /**
+     Vibration supported
+     */
+    FEAT_VIBRATION,
+    /**
+     Program controllable LEDs
+     */
+    FEAT_LEDS,
     /**
      Last feature
      */
@@ -762,6 +831,44 @@ typedef enum
      */
 	ANIM_INSERT_MAGNETIC_CARD,
 }ANIMATIONS;
+
+/**
+ Languages to be used with some pinpad functions, like the manual magnetic card entry
+ */
+typedef enum {
+    /**
+     English
+     */
+	LANG_ENGLISH=0,
+    /**
+     Bulgarian
+     */
+	LANG_BULGARIAN,
+    /**
+     Spanish
+     */
+	LANG_ESPANIOL,
+    /**
+     Russian
+     */
+	LANG_RUSSIAN,
+    /**
+     Romanian
+     */
+	LANG_ROMANIAN,
+    /**
+     French
+     */
+	LANG_FRENCH,
+    /**
+     Finish
+     */
+	LANG_FINISH,
+    /**
+     Swedish
+     */
+	LANG_SWEDISH,
+}LANGUAGES;
 
 /**
  Specific codepages, that can be used with uiDrawText function
@@ -1291,6 +1398,51 @@ typedef enum
 -(void)magneticCardEncryptedData:(int)encryption tracks:(int)tracks data:(NSData *)data;
 
 /**
+ Notification sent when magnetic card is successfuly read. The data is being sent encrypted.
+ @param encryption encryption algorithm used, one of:
+ <table>
+ <tr><td>0</td><td>AES 256</td></tr>
+ <tr><td>1</td><td>IDTECH with DUKPT</td></tr>
+ </table>
+ 
+ For AES256, after decryption, the result data will be as follows:
+ - Random data (4 bytes)
+ - Device identification text (16 ASCII characters, unused bytes are 0)
+ - Processed track data in the format: 0xF1 (track1 data), 0xF2 (track2 data) 0xF3 (track3 data). It is possible some of the tracks will be empty, then the identifier will not be present too, for example 0xF1 (track1 data) 0xF3 (track3 data)
+ - End of track data (byte 0x00)
+ - CRC16 (2 bytes) - the CRC is performed from the start of the encrypted block (the Random Data block) to the end of the track data (including the 0x00 byte).
+ The data block is rounded to 16 bytes
+ 
+ In the more secure way, where the decryption key resides in a server only, the card read process will look something like:
+ - (User) swipes the card
+ - (iOS program) receives the data via magneticCardEncryptedData and sends to the server
+ - (iOS program)[optional] sends current Linea serial number along with the data received from magneticCardEncryptedData. This can be used for data origin verification
+ - (Server) decrypts the data, extracts all the information from the fields
+ - (Server)[optional] if the ipod program have sent the Linea serial number before, the server compares the received serial number with the one that's inside the encrypted block
+ - (Server) checks if the card data is the correct one, i.e. all needed tracks are present, card is the same type as required, etc and sends back notification to the ipod program.
+ 
+ For IDTECH with DUKPT the data contains:
+ - DATA[0]:	CARD TYPE: 0 - payment card
+ - DATA[1]:	TRACK FLAGS
+ - DATA[2]:	TRACK 1 LENGTH
+ - DATA[3]:	TRACK 2 LENGTH
+ - DATA[4]:	TRACK 3 LENGTH
+ - DATA[??]:	TRACK 1 DATA MASKED
+ - DATA[??]:	TRACK 2 DATA MASKED
+ - DATA[??]:	TRACK 3 DATA
+ - DATA[??]:	TRACK 1 AND TRACK 2 TDES ENCRYPTED
+ - DATA[??]:	TRACK 1 SHA1 (0x14 BYTES)
+ - DATA[??]:	TRACK 2 SHA1 (0x14 BYTES)
+ - DATA[??]:	DUKPT SERIAL AND COUNTER (0x0A BYTES)
+ 
+ @param tracks contain information which tracks are successfully read and inside the encrypted data as bit fields, bit 1 corresponds to track 1, etc, so value of 7 means all tracks are read
+ @param data contains the encrypted card data
+ @param track1masked when possible, track1 data will be masked and returned here
+ @param track2masked when possible, track2 data will be masked and returned here
+ **/
+-(void)magneticCardEncryptedData:(int)encryption tracks:(int)tracks data:(NSData *)data track1masked:(NSString *)track1masked track2masked:(NSString *)track2masked track3:(NSString *)track3;
+
+/**
  Notification sent when magnetic card is successfuly read
  @param tracks contains the raw magnetic card data. These are the bits directly from the magnetic head.
  The maximum length of a single track is 704 bits (88 bytes), so the command returns the 3 tracks as 3x88 bytes block
@@ -1393,6 +1545,16 @@ typedef enum
 
 /**
  Provides universal access to all supported devices' functions.
+ In order to use one of the supported accessories in your program, several steps have to be performed:
+ - Include DTDevices.h and libdtdev.a in your project.
+ - Go to Frameworks and add ExternalAccessory framework
+ - Edit your program plist file, add new element and select "Supported external accessory protocols" from the list, then add the protocol names of the accessories you want to connect to:
+ <br>For Linea series: com.datecs.linea.pro.msr and com.datecs.linea.pro.bar
+ <br>For Pinpad: com.datecs.iserial.communication and com.datecs.ppad
+ <br>For iSerial: com.datecs.iserial.communication
+ <br>For ESC/POS printers: com.datecs.printer.escpos
+ 
+ <br>Since this SDK is based on features, the specific device is not that important, for example, if your program relies on barcode scanning, then Linea, Pinpad or the ESC/POS printers can provide that functionality, so you can include all their protocols.
  */
 @interface DTDevices : NSObject
 /** @defgroup G_LNGENERAL General functions
@@ -1430,9 +1592,16 @@ typedef enum
  **/
 -(void)disconnect;
 
+/*
+ Checks if accessory is presnet - either already connected, or physically attached, even if not connected to
+ @param type device type, one of DEVICE_TYPE_* constants
+ @return true if the accessory is either connected or physically attached
+ */
+-(BOOL)isPresent:(int)type;
+
 /**
  The sdk can work with many devices at the same time, but some functions can be executed on a single device at a time (for example barcodeStartScan), this function sets the prefered device to execute the function by type.
- @param type device type to be made active, one of the DEVICE_* constants
+ @param type device type to be made active, one of the DEVICE_TYPE_* constants
  @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
  @return TRUE if function succeeded, FALSE otherwise
  */
@@ -1680,6 +1849,13 @@ typedef enum
  @return TRUE if function succeeded, FALSE otherwise
  */
 -(BOOL)barcodeSetTypeMode:(int)mode error:(NSError **)error;
+
+/**
+ Performs factory reset of the barcode module. This function is taxing, slow and should not be called often, emergency use only.
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)barcodeEngineResetToDefaults:(NSError **)error;
 
 /**
  Allows for a custom initialization string to be sent to the Opticon barcode engine. The string is sent directly, if the barcode is currently powered on, and every time it gets initialized. The setting does not persists, so it is best this command is called upon new connection.
@@ -2367,6 +2543,14 @@ typedef enum
 -(BOOL)emsrGetFirmwareVersion:(int *)version error:(NSError **)error;
 
 /**
+ Returns head's security version as number MAJOR*100+MINOR, i.e. version 1.05 will be sent as 105. Security version is the version of the certificated security kernel.
+ @param version integer, where firmware version is stored upon success
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)emsrGetSecurityVersion:(int *)version error:(NSError **)error;
+
+/**
  Return head's unique serial number as byte array
  @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
  @return serial number or nil if an error occured
@@ -2407,6 +2591,8 @@ typedef enum
  @return TRUE if function succeeded, FALSE otherwise
  */
 -(BOOL)emsrConfigMaskedDataShowExpiration:(BOOL)showExpiration unmaskedDigitsAtStart:(int)unmaskedDigitsAtStart unmaskedDigitsAtEnd:(int)unmaskedDigitsAtEnd error:(NSError **)error;
+
+-(BOOL)emsrLoadRSAKeyPEM:(NSString *)pem version:(int)version error:(NSError **)error;
 /**@}*/
 
 /*******************************************************************************
@@ -2418,15 +2604,15 @@ typedef enum
  */
 
 /**
- Type A (Mifare) cards will be detected
+ ISO14443 Type A (Mifare) cards will be detected
  */
 #define CARD_SUPPORT_TYPE_A 0x0001
 /**
- Type B cards will be detected. Currently unsupported.
+ ISO14443 Type B cards will be detected. Currently unsupported.
  */
 #define CARD_SUPPORT_TYPE_B 0x0002
 /**
- Felica cards will be detected. Currently unsupported.
+ Felica cards will be detected.
  */
 #define CARD_SUPPORT_FELICA 0x0004
 /**
@@ -2544,7 +2730,144 @@ typedef enum
  @return number of bytes actually written or 0 if an error occured
  */
 -(int)iso15693Write:(int)cardIndex startBlock:(int)startBlock data:(NSData *)data error:(NSError **)error;
+/**
+ Reads the security status of one more more blocks from ISO 15693 card.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param startBlock the starting block to read from
+ @param nBlocks the number of blocks to get the security status
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return NSData object containing the data received or nil if an error occured
+ */
+-(NSData *)iso15693GetBlocksSecurityStatus:(int)cardIndex startBlock:(int)startBlock nBlocks:(int)nBlocks error:(NSError **)error;
+/**
+ Locks a single ISO 15693 card block. Locked blocks cannot be written upon anymore.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param block the block index to lock
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)iso15693LockBlock:(int)cardIndex block:(int)block error:(NSError **)error;
+/**
+ Changes ISO 15693 card AFI.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param afi new AFI value
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)iso15693WriteAFI:(int)cardIndex afi:(uint8_t)afi error:(NSError **)error;
+/**
+ Locks ISO 15693 AFI preventing further changes.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)iso15693LockAFI:(int)cardIndex error:(NSError **)error;
+/**
+ Changes ISO 15693 card DSFID.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param dsfid new DSFID value
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)iso15693WriteDSFID:(int)cardIndex dsfid:(uint8_t)dsfid error:(NSError **)error;
+/**
+ Locks ISO 15693 card DSFID preventing further changes.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)iso15693LockDSFID:(int)cardIndex error:(NSError **)error;
 
+/**
+ Reads one more more blocks of data from FeliCa card.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param startBlock the starting block to read from
+ @param length the number of bytes to read, this must be multiple of block size (can be taken from the card info that is coming with rfCardDetected call)
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return NSData object containing the data received or nil if an error occured
+ */
+-(NSData *)felicaRead:(int)cardIndex startBlock:(int)startBlock length:(int)length error:(NSError **)error;
+/**
+ Writes one more more blocks of data to FeliCa card.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param startBlock the starting block to write to
+ @param data the data to write, it must be multiple of block size (can be taken from the card info that is coming with rfCardDetected call)
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return number of bytes actually written or 0 if an error occured
+ */
+-(int)felicaWrite:(int)cardIndex startBlock:(int)startBlock data:(NSData *)data error:(NSError **)error;
+
+/**
+ Returns FeliCa SmartTag battery status
+ @note Call this function before any other SmartTag
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param status upon successful execution, battery status will be returned here, one of FELICA_SMARTTAG_BATTERY_* constants
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)felicaSmartTagGetBatteryStatus:(int)cardIndex status:(int *)status error:(NSError **)error;
+/**
+ Clears the screen of FeliCa SmartTag
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param status upon successful execution, battery status will be returned here, one of FELICA_SMARTTAG_BATTERY_* constants
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)felicaSmartTagClearScreen:(int)cardIndex error:(NSError **)error;
+/**
+ Draws image on FeliCa SmartTag's screen. The screen is 200x96 pixels.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param image image to draw
+ @param topLeftX - topleft X coordinate in pixels
+ @param topLeftY - topleft Y coordinate in pixels
+ @param drawMode draw mode, one of the FELICA_SMARTTAG_DRAW_* constants
+ @param layout only used when drawMode is FELICA_SMARTTAG_DRAW_USE_LAYOUT, it specifies the index of the layout (1-12) of the previously stored image
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)felicaSmartTagDrawImage:(int)cardIndex image:(UIImage *)image topLeftX:(int)topLeftX topLeftY:(int)topLeftY drawMode:(int)drawMode layout:(int)layout error:(NSError **)error;
+/**
+ Saves the current display as layout number
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param layout layout index (1-12) to which the currently displayed image will be saved
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)felicaSmartTagSaveLayout:(int)cardIndex layout:(int)layout error:(NSError **)error;
+/**
+ Displays previously stored layout
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param layout layout index (1-12) of the previously stored image
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)felicaSmartTagDisplayLayout:(int)cardIndex layout:(int)layout error:(NSError **)error;
+/**
+ Writes data in FeliCa SmartTag.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param address the address of the card to write to, refer to SmartTag documentation
+ @param data data to write, note that the data does not need to be aligned to block size
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return number of bytes actually written or 0 if an error occured
+ */
+-(int)felicaSmartTagWrite:(int)cardIndex address:(int)address data:(NSData *)data error:(NSError **)error;
+/**
+ Writes data in FeliCa SmartTag.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param address the address of the card to read from, refer to SmartTag documentation
+ @param length of the data to read, note that the data does not need to be aligned to block size
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return NSData object containing the data received or nil if an error occured
+ */
+-(NSData *)felicaSmartTagRead:(int)cardIndex address:(int)address length:(int)length error:(NSError **)error;
+/**
+ Waits for FeliCa SmartTag to complete current operation. Waiting is generally not needed, but needed in case for example drawing an image and then saving the layout, you need to wait for the image to be drawn.
+ Write operation forces waiting internally.
+ @param cardIndex the index of the card as sent by rfCardDetected delegate call
+ @param error pointer to NSError object, where error information is stored in case function fails. You can pass nil if you don't want that information
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)felicaSmartTagWaitCompletion:(int)cardIndex error:(NSError **)error;
 /**@}*/
 
 /** @defgroup G_PPSMARTCARD SmartCard Functions
@@ -2655,20 +2978,36 @@ typedef enum
 -(BOOL)ppadCancelPINEntry:(NSError **)error;
 
 /**
+ Initiates synchronous magnetic card entry procedure. The magnetic card data is stored encrypted and protected inside the pinpad.
+ After successful operation card data is sent like any other card read operation - via magneticCardEncryptedData with the encryption selected via emsrSetEncryption. This function is blocking and can take up to timeout seconds, so make sure to call it on a thread or dispatch_async
+ @param language - the language to display promt on, one of the LANG_* constants
+ @param startY - Y coordinate in characters from the top of the defined window where the PIN entry prompt will be drawn
+ @param timeout - timeout in seconds waiting for the user to enter the card data (10-180)
+ @param error returns error information, you can pass nil if you don't want it
+ @return TRUE if function succeeded, FALSE otherwise
+ **/
+-(BOOL)ppadMagneticCardEntry:(int)language timeout:(int)timeout error:(NSError **)error;
+
+/**
  Gets encrypted pin data using pre-loaded 3DES key
+ The returned data consists of:
+ - 3DES Encrypted PIN code, according to the selected format (8 bytes)
  @param fixedKeyID - key ID (1-49)
  @param keyVariant 16 bytes of data, that is XOR-ed with the key before encrypting. Pass nil if you don't want that.
- @param pinFormat PIN format, one of the PIN_FORMAT_* constants
+ @param pinFormat PIN format, one of the PIN_FORMAT_* constants, according to ISO 9564
  @param error returns error information, you can pass nil if you don't want it
  @return key information object upon success, nil otherwise
  **/
 -(NSData *)ppadGetPINBlockUsingFixedKey:(int)fixedKeyID keyVariant:(NSData *)keyVariant pinFormat:(int)pinFormat error:(NSError **)error;
 
 /**
- Gets encrypted pin data using DUKPT
+ Gets encrypted pin data using DUKPT.
+ The returned data consists of:
+ - DUKPT/3DES Encrypted PIN code, according to the selected format (8 bytes)
+ - Current Key Serial Number (10 bytes)
  @param dukptKeyID - DUKPT key ID (0-1)
  @param keyVariant 16 bytes of data, that is XOR-ed with the key before encrypting. Pass nil if you don't want that.
- @param pinFormat PIN format, one of the PIN_FORMAT_* constants
+ @param pinFormat PIN format, one of the PIN_FORMAT_* constants, according to ISO 9564
  @param error returns error information, you can pass nil if you don't want it
  @return key information object upon success, nil otherwise
  **/
@@ -2701,16 +3040,19 @@ typedef enum
  <br>After the initialisation, the first thing to do will be to set all the data items needed to start the transaction, mainly these items
  correspond to configuration issues:
  @image html diagram_a.png
+ @image latex diagram_a.eps "Kernel initialisation and version verification" width=15cm
  
  <p><b>Card recognition and ATR validation</b>
  <p>The application will be in charge of detecting the presence of the smart card in the reader using the corresponding firmware function call,
  the application must power on the card also, the kernel is used in this phase to validate the ATR got from the card.
  @image html diagram_b.png
+ @image latex diagram_b.eps "Card recognition and ATR validation" width=15cm
  
  <p><b>Application selection & initiation</b>
  <p>Once the card has been powered on and the ATR validated to ensure that is a valid EMV card, the next step is to proceed
  with the application selection and initiation.
  @image html diagram_c.png
+ @image latex diagram_c.eps "Application selection & initiation" width=15cm
  
  <p><b>Transaction data processing</b>
  <p>Next the rest of the EMV transaction phases will be completed prior to the transaction decision, this includes:
@@ -2721,15 +3063,16 @@ typedef enum
  <br>Cardholder verification.
  
  <p>For the card data authentication process the function shEMVAuthentication is called with the amount detection flag set to FALSE
- because it’s assumed that the amount was already entered and is available for the application, if that’s not the case if the application
+ because it's assumed that the amount was already entered and is available for the application, if that’s not the case if the application
  wants to use the actual value for the amount can enable this flag and provide the amount if requested during the dynamic authentication.
  
  <p>If the application is not offline enabled the call to the function shEMVTerminalRisk can be made without setting the data previously
  as shown in the diagam.
  @image html diagram_d.png
+ @image latex diagram_d.eps "Data authentication process" width=15cm
  
  <p><b>Application transaction decision</b>
- <br>At this point of the transaction, it’s where the first decision is made. All the previous procedures results have been reflected
+ <br>At this point of the transaction, it's where the first decision is made. All the previous procedures results have been reflected
  on the TVR & TSI, and in this case the former is used to determine what type of transaction will be carried out from here.
  
  <br>Additionally for offline applications it will be necessary to check if the card is in the host list, if so the appropiate TVR bit must be updated.
@@ -2740,23 +3083,26 @@ typedef enum
  <br>If the application has online only capabilities the result TRANSACTION_APPROVED should never be received as the response to the
  shEMVMakeTransDecision call, anyhow if this happens the transaction should be considered denied.
  
- <br>Once the cryptogram has been generated, it’s necessary to check its type according to the original requested type. So, it’s not acceptable
+ <br>Once the cryptogram has been generated, it's necessary to check its type according to the original requested type. So, it's not acceptable
  to get a TC when requesting an AAC or ARQC, for that reason the verification types “AC Requested < XX” appear on the flow diagram.
  @image html diagram_e.png
+ @image latex diagram_e.eps "Diagram" width=15cm
  
  <p><b>Transaction card decision</b>
- <br>When the issuer decision is known, it must be informed to the card requesting the appropiate cryptogram type, so that it’s the card the one
+ <br>When the issuer decision is known, it must be informed to the card requesting the appropiate cryptogram type, so that it's the card the one
  who has the final decision regarding the transaction. The refund/reversal procedure is out of the scope of the kernel, anyway all the data items
  needed can be accessed through the shEMVGetDatAsXXXX functions.
  
  <br>Additionally the storage of the scripts results, second cryptogram for further report to the issuer is also out of the scope of this
  specification and will have to be determined by the particular payment system.
  @image html diagram_g.png
+ @image latex diagram_g.eps "Diagram" width=15cm
  
  <p><b>Default processing</b>
  <br>If the transaction cannot be completed online due to problems with the communication channel the default processing must be applied.
  In this case, if the application has no offline capabilities the transaction must be declined inmediately without any further processing.
  @image html diagram_h.png
+ @image latex diagram_h.eps "Default processing" width=15cm
  
  @{
  */
@@ -2771,16 +3117,19 @@ typedef enum
  <br>After the initialisation, the first thing to do will be to set all the data items needed to start the transaction, mainly these items
  correspond to configuration issues:
  @image html diagram_a.png
- 
+ @image latex diagram_a.eps "Kernel initialisation and version verification" width=15cm
+
  <p><b>Card recognition and ATR validation</b>
  <p>The application will be in charge of detecting the presence of the smart card in the reader using the corresponding firmware function call,
  the application must power on the card also, the kernel is used in this phase to validate the ATR got from the card.
  @image html diagram_b.png
+ @image latex diagram_b.eps "Card recognition and ATR validation" width=15cm
  
  <p><b>Application selection & initiation</b>
  <p>Once the card has been powered on and the ATR validated to ensure that is a valid EMV card, the next step is to proceed
  with the application selection and initiation.
  @image html diagram_c.png
+ @image latex diagram_c.eps "Application selection & initiation" width=15cm
  
  <p><b>Transaction data processing</b>
  <p>Next the rest of the EMV transaction phases will be completed prior to the transaction decision, this includes:
@@ -2791,15 +3140,16 @@ typedef enum
  <br>Cardholder verification.
  
  <p>For the card data authentication process the function shEMVAuthentication is called with the amount detection flag set to FALSE
- because it’s assumed that the amount was already entered and is available for the application, if that’s not the case if the application
+ because it's assumed that the amount was already entered and is available for the application, if that’s not the case if the application
  wants to use the actual value for the amount can enable this flag and provide the amount if requested during the dynamic authentication.
  
  <p>If the application is not offline enabled the call to the function shEMVTerminalRisk can be made without setting the data previously
  as shown in the diagam.
  @image html diagram_d.png
+ @image latex diagram_d.eps "Data authentication process" width=15cm
  
  <p><b>Application transaction decision</b>
- <br>At this point of the transaction, it’s where the first decision is made. All the previous procedures results have been reflected
+ <br>At this point of the transaction, it's where the first decision is made. All the previous procedures results have been reflected
  on the TVR & TSI, and in this case the former is used to determine what type of transaction will be carried out from here.
  
  <br>Additionally for offline applications it will be necessary to check if the card is in the host list, if so the appropiate TVR bit must be updated.
@@ -2810,23 +3160,26 @@ typedef enum
  <br>If the application has online only capabilities the result TRANSACTION_APPROVED should never be received as the response to the
  shEMVMakeTransDecision call, anyhow if this happens the transaction should be considered denied.
  
- <br>Once the cryptogram has been generated, it’s necessary to check its type according to the original requested type. So, it’s not acceptable
+ <br>Once the cryptogram has been generated, it's necessary to check its type according to the original requested type. So, it's not acceptable
  to get a TC when requesting an AAC or ARQC, for that reason the verification types “AC Requested < XX” appear on the flow diagram.
  @image html diagram_e.png
+ @image latex diagram_e.eps "Diagram" width=15cm
  
  <p><b>Transaction card decision</b>
- <br>When the issuer decision is known, it must be informed to the card requesting the appropiate cryptogram type, so that it’s the card the one
+ <br>When the issuer decision is known, it must be informed to the card requesting the appropiate cryptogram type, so that it's the card the one
  who has the final decision regarding the transaction. The refund/reversal procedure is out of the scope of the kernel, anyway all the data items
  needed can be accessed through the shEMVGetDatAsXXXX functions.
  
  <br>Additionally the storage of the scripts results, second cryptogram for further report to the issuer is also out of the scope of this
  specification and will have to be determined by the particular payment system.
  @image html diagram_g.png
+ @image latex diagram_g.eps "Diagram" width=15cm
  
  <p><b>Default processing</b>
  <br>If the transaction cannot be completed online due to problems with the communication channel the default processing must be applied.
  In this case, if the application has no offline capabilities the transaction must be declined inmediately without any further processing.
  @image html diagram_h.png
+ @image latex diagram_h.eps "Default processing" width=15cm
  */
 
 #ifndef EMV_STRUCTURES_DEFINED
@@ -4093,7 +4446,7 @@ typedef enum {
  The command gets back the list of common applications supported by the terminal and the card, actually this commands will end
  or resume the selection procedure.
  <p>
- Initially the command will check the provided data, if it’s empty string, the status NO_DATA_FOUND will be returned,
+ Initially the command will check the provided data, if it's empty string, the status NO_DATA_FOUND will be returned,
  if during the procedure any internal error occurs the status will be EMV_SYSTEM_ERROR. On the other hand, if the process
  and be completed correctly the possible status returned will be: EMV_LIST_AVAILABLE, EMV_APPLICATION_AVAILABLE, EMV_NO_COMMON_APPLICATION
  according to the number of common applications found.
@@ -4350,7 +4703,7 @@ typedef enum {
 /**
  The script processing retrieved in the online authorization is handled by this command.
  <p>
- First the presence of the script in the data repository is checked, if it’s not present the status EMV_NO_SCRIPT_LOADED is returned.
+ First the presence of the script in the data repository is checked, if it's not present the status EMV_NO_SCRIPT_LOADED is returned.
  If during the processing any internal error occurs the status EMV_SYSTEM_ERROR will be set. Once the script has been conveniently processed
  and issued to the card the status EMV_SUCCESS will be set.
  @note The script data should be provided to the kernel through the data item TAG_ISSUER_SCRIPTS, and after the processing is over the results
@@ -4468,11 +4821,11 @@ typedef enum {
  <p>
  Initially the input data is validated, if the buffer is NULL the status EMV_NO_DATA_FOUND will be returned, in case of not locating the tag
  EMV_TAG_NOT_FOUND will be set, if the length of the incoming data is not in the range accepted by the data item the status EMV_INVALID_LENGTH
- will be returned. The data item attributes are checked to determine whether the item can be written or not, if it’s not the case the status
+ will be returned. The data item attributes are checked to determine whether the item can be written or not, if it's not the case the status
  returned will be EMV_INVALID_TAG. If during the processing any internal error occurs the returned status will be EMV_SYSTEM_ERROR.
  Once the data has been saved properly the status EMV_SUCCESS will be set.
  @note Using this method there’s no applicable conversion, so the data provided should be in the format that corresponds to the data item
- to be set. So, in fact, it’s like setting a given data item with raw data. Consult section List of EMV tags for a list of the data items.
+ to be set. So, in fact, it's like setting a given data item with raw data. Consult section List of EMV tags for a list of the data items.
  @note Upon successful execution, EMV kernel status is stored in emvLastStatus property.
  @param tagID - holds the Tag Id of the data item
  @param data - holds the Tag Data
@@ -4486,11 +4839,11 @@ typedef enum {
  <p>
  Initially the input data is validated, if the buffer is NULL the status EMV_NO_DATA_FOUND will be returned, in case of not locating the tag
  EMV_TAG_NOT_FOUND will be set, if the length of the incoming data is not in the range accepted by the data item the status EMV_INVALID_LENGTH
- will be returned. The data item attributes are checked to determine whether the item can be written or not, if it’s not the case the status
+ will be returned. The data item attributes are checked to determine whether the item can be written or not, if it's not the case the status
  returned will be EMV_INVALID_TAG. If during the processing any internal error occurs the returned status will be EMV_SYSTEM_ERROR.
  Once the data has been saved properly the status EMV_SUCCESS will be set.
  @note Using this method there’s no applicable conversion, so the data provided should be in the format that corresponds to the data item
- to be set. So, in fact, it’s like setting a given data item with raw data. Consult section List of EMV tags for a list of the data items.
+ to be set. So, in fact, it's like setting a given data item with raw data. Consult section List of EMV tags for a list of the data items.
  @note Upon successful execution, EMV kernel status is stored in emvLastStatus property.
  @param tagID - holds the Tag Id of the data item
  @param data - holds the Tag Data
@@ -4668,6 +5021,23 @@ typedef enum {
  @return TRUE if function succeeded, FALSE otherwise
  **/
 -(BOOL)uiStopAnimation:(ANIMATIONS)animationIndex error:(NSError **)error;
+
+/**
+ Enables or disables controllable LEDs on the device based on bit mask
+ @param mask bit mask of the enabled LEDs, 1 means the bit will be lit, 0 - disabled
+ @param error returns error information, you can pass nil if you don't want it
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)uiControlLEDsWithBitMask:(uint32_t)mask error:(NSError **)error;
+
+/**
+ Activates vibration motor (if available) for a specific time
+ @param time the maximum amount of time the vibration will be active
+ @param error returns error information, you can pass nil if you don't want it
+ @return TRUE if function succeeded, FALSE otherwise
+ */
+-(BOOL)uiEnableVibrationForTime:(float)time error:(NSError **)error;
+
 
 /**
  Contains display width in pixels
