@@ -46,10 +46,6 @@
 		4DF0C8B916A9AE6B001B21C4 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DF0C8B516A9AE6B001B21C4 /* icon-72.png */; };
 		4DF0C8BA16A9AE6B001B21C4 /* icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DF0C8B616A9AE6B001B21C4 /* icon-120.png */; };
 		4DF0C8BB16A9AE6B001B21C4 /* icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DF0C8B716A9AE6B001B21C4 /* icon-114.png */; };
-		7D2673A91839691400D5C543 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2673A4183968F800D5C543 /* SocketRocket.framework */; };
-		7D2673AA1839694000D5C543 /* libSocketRocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2673A2183968F800D5C543 /* libSocketRocket.a */; };
-		7D2673AD1839699100D5C543 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2673AC1839699100D5C543 /* libicucore.dylib */; };
-		7D2673AF1839699B00D5C543 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D2673AE1839699B00D5C543 /* Security.framework */; };
 		7D921AEB180C894C00C616F0 /* icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D921AEA180C894C00C616F0 /* icon-144.png */; };
 		7D921AED180C899200C616F0 /* icon-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D921AEC180C899200C616F0 /* icon-152.png */; };
 		7D921AF1180C8A0400C616F0 /* icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D921AF0180C8A0400C616F0 /* icon-76.png */; };
@@ -62,34 +58,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 68A32D7114102E1C006B237C;
 			remoteInfo = CordovaLib;
-		};
-		7D2673A1183968F800D5C543 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7D267399183968F700D5C543 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6B2082D1450F597009315AF;
-			remoteInfo = SocketRocket;
-		};
-		7D2673A3183968F800D5C543 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7D267399183968F700D5C543 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F668C880153E91210044DBAC;
-			remoteInfo = SocketRocketOSX;
-		};
-		7D2673A5183968F800D5C543 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7D267399183968F700D5C543 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6BDA802145900D200FE3253;
-			remoteInfo = SRWebSocketTests;
-		};
-		7D2673A7183968F800D5C543 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7D267399183968F700D5C543 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F62417E314D52F3C003CE997;
-			remoteInfo = TestChat;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -149,7 +117,6 @@
 		4DF0C8B516A9AE6B001B21C4 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
 		4DF0C8B616A9AE6B001B21C4 /* icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-120.png"; path = "Resources/icons/icon-120.png"; sourceTree = "<group>"; };
 		4DF0C8B716A9AE6B001B21C4 /* icon-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-114.png"; path = "Resources/icons/icon-114.png"; sourceTree = "<group>"; };
-		7D267399183968F700D5C543 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = "SocketRocket-master/SocketRocket.xcodeproj"; sourceTree = "<group>"; };
 		7D2673AC1839699100D5C543 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		7D2673AE1839699B00D5C543 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7D921AEA180C894C00C616F0 /* icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-144.png"; path = "Resources/icons/icon-144.png"; sourceTree = "<group>"; };
@@ -162,9 +129,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D2673AF1839699B00D5C543 /* Security.framework in Frameworks */,
-				7D2673AD1839699100D5C543 /* libicucore.dylib in Frameworks */,
-				7D2673AA1839694000D5C543 /* libSocketRocket.a in Frameworks */,
 				4D1EC746165405480098A713 /* libCordova.a in Frameworks */,
 				4DD80F2C16063AF5005AE0AD /* ExternalAccessory.framework in Frameworks */,
 				4DD80F16160525E0005AE0AD /* CFNetwork.framework in Frameworks */,
@@ -189,7 +153,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D2673A91839691400D5C543 /* SocketRocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,7 +162,6 @@
 		4D16F9C11604031100B87399 = {
 			isa = PBXGroup;
 			children = (
-				7D267399183968F700D5C543 /* SocketRocket.xcodeproj */,
 				4D1EC7371653FDD30098A713 /* CordovaLib.xcodeproj */,
 				4D16F9ED1604031100B87399 /* RetailOps */,
 				4D16F9D21604031100B87399 /* Frameworks */,
@@ -391,17 +353,6 @@
 			name = LineaSDK;
 			sourceTree = "<group>";
 		};
-		7D26739A183968F700D5C543 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7D2673A2183968F800D5C543 /* libSocketRocket.a */,
-				7D2673A4183968F800D5C543 /* SocketRocket.framework */,
-				7D2673A6183968F800D5C543 /* SRWebSocketTests.octest */,
-				7D2673A8183968F800D5C543 /* TestChat.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -457,10 +408,6 @@
 					ProductGroup = 4D1EC7381653FDD30098A713 /* Products */;
 					ProjectRef = 4D1EC7371653FDD30098A713 /* CordovaLib.xcodeproj */;
 				},
-				{
-					ProductGroup = 7D26739A183968F700D5C543 /* Products */;
-					ProjectRef = 7D267399183968F700D5C543 /* SocketRocket.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -475,34 +422,6 @@
 			fileType = archive.ar;
 			path = libCordova.a;
 			remoteRef = 4D1EC73E1653FDD40098A713 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7D2673A2183968F800D5C543 /* libSocketRocket.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSocketRocket.a;
-			remoteRef = 7D2673A1183968F800D5C543 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7D2673A4183968F800D5C543 /* SocketRocket.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SocketRocket.framework;
-			remoteRef = 7D2673A3183968F800D5C543 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7D2673A6183968F800D5C543 /* SRWebSocketTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SRWebSocketTests.octest;
-			remoteRef = 7D2673A5183968F800D5C543 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7D2673A8183968F800D5C543 /* TestChat.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = TestChat.app;
-			remoteRef = 7D2673A7183968F800D5C543 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
