@@ -285,7 +285,8 @@ static NSSet* org_apache_cordova_validArrowDirections;
             if (![data writeToFile:filePath options:NSAtomicWrite error:&err]) {
                 result = [CDVPluginResult resultWithStatus:CDVCommandStatus_IO_EXCEPTION messageAsString:[err localizedDescription]];
             } else {
-                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[[NSURL fileURLWithPath:filePath] absoluteString]];
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[NSString stringWithFormat:@"http://localhost:%@%@", (([[defaults stringForKey:@"port_num"] length])?([defaults stringForKey:@"port_num"]):@"8004"), filePath]];
             }
         } else {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[data base64EncodedString]];

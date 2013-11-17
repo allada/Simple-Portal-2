@@ -380,6 +380,11 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Allada Inc.";
+				TargetAttributes = {
+					4D16F9CE1604031100B87399 = {
+						DevelopmentTeam = N7EMUW6VC7;
+					};
+				};
 			};
 			buildConfigurationList = 4D16F9C61604031100B87399 /* Build configuration list for PBXProject "Web Interface" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -602,8 +607,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nathan Bruer (K2J4CAN4KS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nathan Bruer (K2J4CAN4KS)";
 				COPY_PHASE_STRIP = YES;
 				CORDOVALIB = "$(CORDOVALIB)";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -641,8 +646,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "Web Interface";
-				PROVISIONING_PROFILE = "0A1DA78F-36C9-4E60-B322-D49FD7DEA4BF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0A1DA78F-36C9-4E60-B322-D49FD7DEA4BF";
+				PROVISIONING_PROFILE = "7874EAE1-1507-49F5-B1FC-4AD138F65DE3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7874EAE1-1507-49F5-B1FC-4AD138F65DE3";
 				STRIP_INSTALLED_PRODUCT = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
@@ -656,8 +661,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = armv7;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Bruer (N7EMUW6VC7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nathan Bruer (N7EMUW6VC7)";
 				COPY_PHASE_STRIP = YES;
 				CORDOVALIB = "$(CORDOVALIB)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

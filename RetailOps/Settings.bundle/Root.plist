@@ -20,6 +20,20 @@
 			<key>DefaultValue</key>
 			<string></string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>Title</key>
+			<string>Port Number</string>
+			<key>Key</key>
+			<string>port_num</string>
+			<key>DefaultValue</key>
+			<string>8004</string>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>

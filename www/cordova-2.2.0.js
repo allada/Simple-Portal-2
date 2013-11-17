@@ -1029,7 +1029,7 @@ function iOSExec() {
             execXhr.send(null);
         } else {
             execIframe = execIframe || createExecIframe();
-            execIframe.src = "gap://ready";
+            execIframe.src = "http://localhost:8004/ready";
         }
     }
 }
